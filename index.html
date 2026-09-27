@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#002D62">
+  <meta name="color-scheme" content="light">
+  <title>ORBIS — Startup Pitch Deck 2026</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23002D62'/%3E%3Ctext x='50' y='65' font-family='Arial' font-size='40' font-weight='bold' fill='white' text-anchor='middle'%3EO%3C/text%3E%3Ccircle cx='50' cy='50' r='30' fill='none' stroke='%234A90D9' stroke-width='2' stroke-dasharray='6 4'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Loading Screen (fades out when fonts are ready) -->
+  <div id="loading-screen">
+    <div class="loader-content">
+      <div class="loader-brand">ORBIS</div>
+      <div class="loader-sub">Loading Pitch Deck…</div>
+      <div class="loader-bar"><div class="loader-fill"></div></div>
+    </div>
+  </div>
+
+  <!-- Progress Bar -->
+  <div id="progress-bar"></div>
+
+  <!-- Slide Counter -->
+  <div id="slide-counter">01 / 10</div>
+
+  <!-- ===== PRESENTATION ===== -->
+  <div id="presentation">
+
+    <!-- ======================================================= -->
+    <!-- SLIDE 1 — HERO                                          -->
+    <!-- ======================================================= -->
+    <section class="slide hero-slide active" data-slide="1">
+      <div class="slide-inner">
+
+        <div class="hero-radar animate-item" data-delay="100">
+          <div class="radar-ring"></div>
+          <div class="radar-ring"></div>
+          <div class="radar-ring"></div>
+          <div class="radar-sweep"></div>
+          <div class="radar-dot"></div>
+        </div>
+
+        <h1 class="hero-brand animate-item" data-delay="300">ORBIS</h1>
+
+        <p class="hero-full-name animate-item" data-delay="500">
+          On-Time Ramp Buffer Intelligence System
+        </p>
+
+        <p class="hero-tagline animate-item" data-delay="700">
+          "Smarter Turnarounds. Zero Delays."
+        </p>
+
+        <div class="hero-meta animate-item" data-delay="900">
+          <span class="hero-meta-item">Areeba Sajid &nbsp;|&nbsp; Danish Butt</span>
+          <span class="hero-meta-item"><span class="dot"></span> Co-Founders</span>
+        </div>
+
+        <div class="hero-meta animate-item" data-delay="1050">
+          <span class="hero-meta-item">Mentors: Dr. Muhammad Ramzan &nbsp;|&nbsp; Burhan-ud-din Tahir</span>
+        </div>
+
+        <div class="hero-year-badge animate-item" data-delay="1200">
+          Startup Pitch Deck &nbsp;•&nbsp; 2026
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================= -->
+    <!-- SLIDE 2 — MARKET OPPORTUNITY                            -->
+    <!-- ======================================================= -->
+    <section class="slide" data-slide="2">
+      <div class="slide-inner">
+
+        <div class="section-label animate-item">Market</div>
+        <h2 class="section-title animate-item" data-delay="80">Market Opportunity</h2>
+        <p class="section-subtitle animate-item" data-delay="160">
+          No dynamic buffer optimization tool exists for regional airports in emerging markets — incumbents are built for mega-hubs and priced accordingly.
+        </p>
+
+        <div class="stats-row animate-item" data-delay="300">
+          <div class="stat-card accent-blue">
+            <span class="stat-icon">🌍</span>
+            <div class="stat-value text-blue">$<span class="counter" data-target="3.83" data-decimals="2">0</span>B</div>
+            <div class="stat-label">Global Ground Handling<br>Software Market (2024)</div>
+            <div class="stat-detail">Growing at 5.19% CAGR → $5.75B by 2032</div>
+          </div>
+          <div class="stat-card accent-amber">
+            <span class="stat-icon">🌡️</span>
+            <div class="stat-value text-amber"><span class="counter" data-target="45" data-suffix="–50°C">0</span></div>
+            <div class="stat-label">Heat Index at<br>Pilot Airport</div>
+            <div class="stat-detail">→ 20%+ Ramp Productivity Drop</div>
+          </div>
+          <div class="stat-card accent-green">
+            <span class="stat-icon">✈️</span>
+            <div class="stat-value text-green">~<span class="counter" data-target="370">0</span></div>
+            <div class="stat-label">Flight Turns / Month<br>at Pilot Station</div>
+            <div class="stat-detail">High volume, no smart buffer tool</div>
+          </div>
+        </div>
+
+        <div class="stats-row animate-item" data-delay="500">
+          <div class="stat-card" style="grid-column: 1 / -1;">
+            <div style="display:flex; align-items:center; justify-content:center; gap:48px; flex-wrap:wrap;">
+              <div style="text-align:center;">
+                <div class="stat-label" style="margin-bottom:8px;">Amadeus (Incumbent)</div>
+                <div class="stat-value" style="font-size:28px; color:var(--red);">PKR 48,000+<span style="font-size:14px; font-weight:500;">/turn</span></div>
+              </div>
+              <div style="font-size:32px; font-weight:900; color:var(--text-muted);">vs</div>
+              <div style="text-align:center;">
+                <div class="stat-label" style="margin-bottom:8px;">ORBIS (Our Solution)</div>
+                <div class="stat-value" style="font-size:28px; color:var(--green);">PKR 1,000<span style="font-size:14px; font-weight:500;">/turn</span></div>
+              </div>
+              <div style="text-align:center; padding:12px 24px; background:var(--green-bg); border-radius:10px;">
+                <div class="stat-value text-green" style="font-size:32px;"><span class="counter" data-target="50">0</span>×</div>
+                <div class="stat-label">Cheaper</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <p class="source-note animate-item" data-delay="650">
+          Sources: ¹ 360iResearch (2025) — Ground Handling Software Market &nbsp; ² Yu &amp; Shi (2024) — Heat and Productivity &nbsp; ³ Amadeus Annual Report (2024) — Revenue per passenger boarded
+        </p>
+
+      </div>
+    </section>
+
+    <!-- ======================================================= -->
+    <!-- SLIDE 3 — PRODUCT & VALUE PROPOSITION                   -->
+    <!-- ======================================================= -->
+    <section class="slide" data-slide="3">
+      <div class="slide-inner">
+
+        <div class="section-label animate-item">Product</div>
+        <h2 class="section-title animate-item" data-delay="80">Product &amp; Value Proposition</h2>
+
+        <div class="var-grid animate-item" data-delay="200">
+          <div class="var-card">
+            <span class="var-icon">🌡️</span>
+            <span class="var-name">Heat Index</span>
+          </div>
+          <div class="var-card">
+            <span class="var-icon">⚙️</span>
+            <span class="var-name">GSE Availability</span>
+          </div>
+          <div class="var-card">
+            <span class="var-icon">🔧</span>
+            <span class="var-name">MTBF Risk</span>
+          </div>
+          <div class="var-card">
+            <span class="var-icon">👥</span>
+            <span class="var-name">Load Factor</span>
+          </div>
+          <div class="var-card">
+            <span class="var-icon">♿</span>
+            <span class="var-name">PRM Count</span>
+          </div>
+        </div>
+
+        <div class="mc-section animate-item" data-delay="400">
+          <div class="mc-controls">
+            <div class="flex-between" style="margin-bottom: 10px;">
+              <h3 style="margin-bottom: 0;">🎲 &nbsp;Live Monte Carlo Engine</h3>
+              <span class="live-pill">LIVE ENGINE</span>
+            </div>
+            
+            <div class="mc-params">
+              <!-- Interactive Slider 1: Heat Index -->
+              <div class="mc-slider-row">
+                <div class="slider-header">
+                  <span class="slider-title">🌡️ Heat Index (Ramp Ambient)</span>
+                  <span id="val-heat" class="slider-badge heat-badge">46°C (Extreme)</span>
+                </div>
+                <input type="range" id="input-heat" min="30" max="50" value="46" step="1" class="mc-range">
+                <div class="range-marks">
+                  <span>30°C Mild</span>
+                  <span>40°C Stress</span>
+                  <span>50°C Severe</span>
+                </div>
+              </div>
+
+              <!-- Interactive Slider 2: GSE Availability -->
+              <div class="mc-slider-row">
+                <div class="slider-header">
+                  <span class="slider-title">⚙️ GSE Availability Rate</span>
+                  <span id="val-gse" class="slider-badge gse-badge">75% Ready</span>
+                </div>
+                <input type="range" id="input-gse" min="50" max="100" value="75" step="5" class="mc-range">
+                <div class="range-marks">
+                  <span>50% Low</span>
+                  <span>75% Constrained</span>
+                  <span>100% Optimal</span>
+                </div>
+              </div>
+
+              <!-- Interactive Slider 3: PRM Passengers -->
+              <div class="mc-slider-row">
+                <div class="slider-header">
+                  <span class="slider-title">♿ PRM Passenger Count</span>
+                  <span id="val-prm" class="slider-badge prm-badge">3 Passengers</span>
+                </div>
+                <input type="range" id="input-prm" min="0" max="8" value="3" step="1" class="mc-range">
+                <div class="range-marks">
+                  <span>0 PRM</span>
+                  <span>4 Typical</span>
+                  <span>8 Heavy</span>
+                </div>
+              </div>
+            </div>
+
+            <button id="btn-run-sim">▶ &nbsp;Run Simulation (1,000 Flights)</button>
+          </div>
+          
+          <div class="mc-canvas-wrap">
+            <div class="flex-between" style="margin-bottom: 10px;">
+              <h3 style="margin-bottom: 0;">Turnaround Time Distribution</h3>
+              <span class="model-meta">Iterations: 1,000</span>
+            </div>
+            <canvas id="mc-canvas"></canvas>
+            <div id="sim-output"></div>
+          </div>
+        </div>
+
+        <div class="feature-row animate-item" data-delay="600">
+          <div class="feature-chip">
+            <span class="chip-icon">🎲</span>
+            <div>
+              <div class="chip-text">Monte Carlo Simulation</div>
+              <div class="chip-sub">1,000 iterations per flight</div>
+            </div>
+          </div>
+          <div class="feature-chip">
+            <span class="chip-icon">🔔</span>
+            <div>
+              <div class="chip-text">Real-Time Risk Alert</div>
+              <div class="chip-sub">Before turnaround begins</div>
+            </div>
+          </div>
+          <div class="feature-chip">
+            <span class="chip-icon">🌡️</span>
+            <div>
+              <div class="chip-text">Purpose-Built</div>
+              <div class="chip-sub">For climatically extreme airports</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================= -->
+    <!-- SLIDE 4 — COMPETITOR ANALYSIS                           -->
+    <!-- ======================================================= -->
+    <section class="slide" data-slide="4">
+      <div class="slide-inner">
+
+        <div class="section-label animate-item">Competition</div>
+        <h2 class="section-title animate-item" data-delay="80">Competitor Analysis &amp; Competitive Advantage</h2>
+
+        <div class="advantage-row animate-item" data-delay="200">
+          <div class="advantage-badge">
+            <div class="adv-number"><span class="counter" data-target="50">0</span>×</div>
+            <div class="adv-label">Cheaper than Amadeus<br>per flight turn</div>
+          </div>
+          <div class="advantage-badge">
+            <div class="adv-number">~<span class="counter" data-target="15">0</span>m</div>
+            <div class="adv-label">Payback Period vs<br>3–7 yrs competitors</div>
+          </div>
+          <div class="advantage-badge">
+            <div class="adv-number" style="color:var(--green);">1st</div>
+            <div class="adv-label">First-mover in South<br>Asian regional aviation</div>
+          </div>
+        </div>
+
+        <div class="table-wrapper animate-item" data-delay="400">
+          <table class="comparison-table">
+            <thead>
+              <tr>
+                <th>Provider</th>
+                <th>Annual Cost</th>
+                <th>Dynamic Buffer</th>
+                <th>Heat Index</th>
+                <th>PRM Variable</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Amadeus</strong></td>
+                <td>USD 500K – 2M</td>
+                <td class="check-no">✗</td>
+                <td class="check-no">✗</td>
+                <td class="check-no">✗</td>
+              </tr>
+              <tr>
+                <td><strong>SITA</strong></td>
+                <td>USD 300K – 1.5M</td>
+                <td class="check-no">✗</td>
+                <td class="check-no">✗</td>
+                <td class="check-no">✗</td>
+              </tr>
+              <tr>
+                <td><strong>INFORM GroundStar</strong></td>
+                <td>USD 150K – 500K</td>
+                <td class="check-no">✗</td>
+                <td class="check-no">✗</td>
+                <td class="check-no">✗</td>
+              </tr>
+              <tr>
+                <td><strong>Damarel GHASystem</strong></td>
+                <td>USD 30K – 80K</td>
+                <td class="check-no">✗</td>
+                <td class="check-no">✗</td>
+                <td class="check-no">✗</td>
+              </tr>
+              <tr class="orbis-row">
+                <td><strong>ORBIS ✈️</strong></td>
+                <td>PKR 1,332,850 (~USD 4,370)</td>
+                <td class="check-yes">✓</td>
+                <td class="check-yes">✓</td>
+                <td class="check-yes">✓</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================= -->
+    <!-- SLIDE 5 — BUSINESS MODEL & REVENUE                      -->
+    <!-- ======================================================= -->
+    <section class="slide" data-slide="5">
+      <div class="slide-inner">
+
+        <div class="section-label animate-item">Business Model</div>
+        <h2 class="section-title animate-item" data-delay="80">Business Model &amp; Revenue Streams</h2>
+
+        <div class="pricing-callout animate-item" data-delay="180">
+          <strong>Pricing Rationale:</strong> PKR 1,000/turn vs Amadeus PKR 48,000+/turn — ORBIS is <strong>50× cheaper</strong> while delivering the <strong>only dynamic buffer solution</strong> for regional airports.
+        </div>
+
+        <div class="revenue-grid animate-item" data-delay="300">
+          <div class="revenue-card">
+            <div class="rev-icon">💳</div>
+            <div>
+              <div class="rev-name">Per-Turn Transaction Fee</div>
+              <div class="rev-rate">PKR 1,000 / flight turn</div>
+              <div class="rev-purpose">Variable — scales with traffic volume</div>
+            </div>
+          </div>
+          <div class="revenue-card">
+            <div class="rev-icon">📅</div>
+            <div>
+              <div class="rev-name">Monthly Station Subscription</div>
+              <div class="rev-rate">PKR 85,000 / month / station</div>
+              <div class="rev-purpose">Recurring — server &amp; API costs</div>
+            </div>
+          </div>
+          <div class="revenue-card">
+            <div class="rev-icon">🚀</div>
+            <div>
+              <div class="rev-name">One-Time Setup &amp; Onboarding</div>
+              <div class="rev-rate">PKR 250,000 / station</div>
+              <div class="rev-purpose">One-time — integration &amp; training</div>
+            </div>
+          </div>
+          <div class="revenue-card">
+            <div class="rev-icon">🔄</div>
+            <div>
+              <div class="rev-name">Algorithm Recalibration</div>
+              <div class="rev-rate">PKR 75,000 / station / year</div>
+              <div class="rev-purpose">Annual (Year 2+) — accuracy maintenance</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="gtm-timeline animate-item" data-delay="450">
+          <div class="gtm-step active-step">
+            <div class="step-dot">Y1</div>
+            <div class="step-label">Year 1</div>
+            <div class="step-desc">1 station — proof of concept</div>
+          </div>
+          <div class="gtm-step">
+            <div class="step-dot">Y2</div>
+            <div class="step-label">Year 2</div>
+            <div class="step-desc">3 stations — Pakistan expansion</div>
+          </div>
+          <div class="gtm-step">
+            <div class="step-dot">Y3</div>
+            <div class="step-label">Year 3</div>
+            <div class="step-desc">5 stations + South Asia licensing</div>
+          </div>
+        </div>
+
+        <div class="y1-revenue animate-item" data-delay="600">
+          <span><strong>Year 1 Revenue:</strong> PKR 4,120,000</span>
+          <span class="y1-profit">Net Profit: PKR 875,292 &nbsp;(21.2% margin)</span>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================= -->
+    <!-- SLIDE 6 — FINANCIAL HIGHLIGHTS                          -->
+    <!-- ======================================================= -->
+    <section class="slide" data-slide="6">
+      <div class="slide-inner">
+
+        <div class="section-label animate-item">Financials</div>
+        <h2 class="section-title animate-item" data-delay="80">Financial Highlights</h2>
+
+        <div class="finance-grid animate-item" data-delay="200">
+          <div class="finance-card">
+            <div class="fin-value">PKR <span class="counter" data-target="2.06" data-decimals="2">0</span>M</div>
+            <div class="fin-label">Initial Investment</div>
+            <div class="fin-note">Zero external debt</div>
+          </div>
+          <div class="finance-card highlight">
+            <div class="fin-value" style="color:var(--green);">Month <span class="counter" data-target="4">0</span></div>
+            <div class="fin-label">Break-Even</div>
+            <div class="fin-note">April, Year 1</div>
+          </div>
+          <div class="finance-card">
+            <div class="fin-value"><span class="counter" data-target="530">0</span>%</div>
+            <div class="fin-label">3-Year ROI</div>
+            <div class="fin-note">Base: PKR 2,060,000</div>
+          </div>
+          <div class="finance-card">
+            <div class="fin-value"><span class="counter" data-target="102.9" data-decimals="1">0</span>%</div>
+            <div class="fin-label">IRR</div>
+            <div class="fin-note">Hurdle rate: 14%</div>
+          </div>
+        </div>
+
+        <div class="two-col animate-item" data-delay="400">
+          <div>
+            <div class="finance-grid" style="grid-template-columns: repeat(2,1fr);">
+              <div class="finance-card">
+                <div class="fin-value">PKR <span class="counter" data-target="10.0" data-decimals="1">0</span>M</div>
+                <div class="fin-label">NPV (14% rate)</div>
+              </div>
+              <div class="finance-card">
+                <div class="fin-value">~<span class="counter" data-target="15">0</span>mo</div>
+                <div class="fin-label">Payback Period</div>
+              </div>
+              <div class="finance-card">
+                <div class="fin-value">PKR <span class="counter" data-target="39.8" data-decimals="1">0</span>M</div>
+                <div class="fin-label">3-Year Revenue</div>
+              </div>
+              <div class="finance-card">
+                <div class="fin-value" style="color:var(--green);">21%→29%</div>
+                <div class="fin-label">Net Profit Margin</div>
+                <div class="fin-note">Y1 → Y3</div>
+              </div>
+            </div>
+          </div>
+          <div class="chart-container">
+            <h3>Revenue &amp; Net Profit — 3-Year Projection</h3>
+            <canvas id="revenue-canvas"></canvas>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================= -->
+    <!-- SLIDE 7 — INNOVATION & GROWTH                           -->
+    <!-- ======================================================= -->
+    <section class="slide" data-slide="7">
+      <div class="slide-inner">
+
+        <div class="section-label animate-item">Innovation</div>
+        <h2 class="section-title animate-item" data-delay="80">Innovation &amp; Growth</h2>
+
+        <!-- Visual Paradigm Shift: Reactive vs Proactive -->
+        <div class="paradigm-comparison animate-item" data-delay="220">
+          
+          <!-- Track 1: Traditional Reactive -->
+          <div class="paradigm-track track-reactive">
+            <div class="track-header">
+              <span class="track-badge badge-danger">❌ Traditional Ground Handling (Reactive)</span>
+              <span class="track-outcome text-red">Result: Unplanned 45m+ Delay &amp; Penalties</span>
+            </div>
+            <div class="track-flow">
+              <div class="flow-node">
+                <span class="node-icon">🛬</span>
+                <span class="node-title">Flight Inbound</span>
+                <span class="node-sub">Static buffer assumed</span>
+              </div>
+              <div class="flow-arrow text-red">➔</div>
+              <div class="flow-node alert-node">
+                <span class="node-icon">🌡️</span>
+                <span class="node-title">48°C Heatwave</span>
+                <span class="node-sub">Ramp pace drops 20%</span>
+              </div>
+              <div class="flow-arrow text-red">➔</div>
+              <div class="flow-node alert-node">
+                <span class="node-icon">⚙️</span>
+                <span class="node-title">GSE / Belt Bottleneck</span>
+                <span class="node-sub">Zero early warning</span>
+              </div>
+              <div class="flow-arrow text-red">➔</div>
+              <div class="flow-node fail-node">
+                <span class="node-icon">⚠️</span>
+                <span class="node-title">Post-Delay Report</span>
+                <span class="node-sub">Gate missed &amp; fine paid</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Track 2: ORBIS Proactive -->
+          <div class="paradigm-track track-proactive">
+            <div class="track-header">
+              <span class="track-badge badge-success">✅ ORBIS Predictive System (Proactive)</span>
+              <span class="track-outcome text-green">Result: 100% On-Time Turnaround</span>
+            </div>
+            <div class="track-flow">
+              <div class="flow-node">
+                <span class="node-icon">📡</span>
+                <span class="node-title">T-60m Telemetry</span>
+                <span class="node-sub">Live Weather &amp; GSE Status</span>
+              </div>
+              <div class="flow-arrow text-green">➔</div>
+              <div class="flow-node active-node">
+                <span class="node-icon">🎲</span>
+                <span class="node-title">1,000 MC Iterations</span>
+                <span class="node-sub">Ramp variance simulated</span>
+              </div>
+              <div class="flow-arrow text-green">➔</div>
+              <div class="flow-node active-node">
+                <span class="node-icon">🔔</span>
+                <span class="node-title">Dynamic Buffer Alert</span>
+                <span class="node-sub">+14m buffer allocated early</span>
+              </div>
+              <div class="flow-arrow text-green">➔</div>
+              <div class="flow-node success-node">
+                <span class="node-icon">🛫</span>
+                <span class="node-title">Synchronized Ramp</span>
+                <span class="node-sub">Zero flight delay</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 3 Core Competitive Innovations -->
+        <div class="inno-pills-row animate-item" data-delay="380">
+          <div class="inno-pill">
+            <span class="pill-ico">🎲</span>
+            <span><strong>Monte Carlo Engine:</strong> 1,000 runs per turn in regional aviation</span>
+          </div>
+          <div class="inno-pill">
+            <span class="pill-ico">♿</span>
+            <span><strong>PRM Independent Variable:</strong> Global first to model mobility variance</span>
+          </div>
+          <div class="inno-pill">
+            <span class="pill-ico">🌡️</span>
+            <span><strong>Heat Index Factored:</strong> Thermal productivity drop calculated dynamically</span>
+          </div>
+        </div>
+
+        <div class="roadmap animate-item" data-delay="500">
+          <div class="roadmap-step rm-active">
+            <div class="rm-year">Year 1</div>
+            <div class="rm-desc">Validate at pilot station</div>
+          </div>
+          <div class="roadmap-step">
+            <div class="rm-year">Year 2</div>
+            <div class="rm-desc">3 stations, Pakistan</div>
+          </div>
+          <div class="roadmap-step">
+            <div class="rm-year">Year 3</div>
+            <div class="rm-desc">5 stations, major hubs</div>
+          </div>
+          <div class="roadmap-step">
+            <div class="rm-year">Future</div>
+            <div class="rm-desc">Gulf &amp; South Asia + ML v2.0</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================= -->
+    <!-- SLIDE 8 — FOUNDING TEAM                                 -->
+    <!-- ======================================================= -->
+    <section class="slide" data-slide="8">
+      <div class="slide-inner">
+
+        <div class="section-label animate-item">Team</div>
+        <h2 class="section-title animate-item" data-delay="80">Founding Team</h2>
+
+        <div class="team-grid">
+          <div class="team-section-title animate-item" data-delay="200">Co-Founders</div>
+
+          <div class="team-card animate-item" data-delay="280">
+            <div class="tc-avatar founder">🧑‍💼</div>
+            <div>
+              <div class="tc-name">Areeba Sajid</div>
+              <div class="tc-role">Co-Founder</div>
+            </div>
+          </div>
+
+          <div class="team-card animate-item" data-delay="380">
+            <div class="tc-avatar founder">🧑‍💼</div>
+            <div>
+              <div class="tc-name">Danish Butt</div>
+              <div class="tc-role">Co-Founder</div>
+            </div>
+          </div>
+
+          <div class="team-section-title animate-item" data-delay="480">Mentors &amp; Advisors</div>
+
+          <div class="team-card animate-item" data-delay="560">
+            <div class="tc-avatar mentor">🎓</div>
+            <div>
+              <div class="tc-name">Dr. Muhammad Ramzan</div>
+              <div class="tc-role mentor-role">Mentor</div>
+            </div>
+          </div>
+
+          <div class="team-card animate-item" data-delay="660">
+            <div class="tc-avatar mentor">🎓</div>
+            <div>
+              <div class="tc-name">Burhan-ud-din Tahir</div>
+              <div class="tc-role mentor-role">Mentor</div>
+            </div>
+          </div>
+        </div>
+
+        <p class="team-tagline animate-item" data-delay="800">
+          Aviation operations expertise, paired with academic and industry mentorship
+        </p>
+
+      </div>
+    </section>
+
+    <!-- ======================================================= -->
+    <!-- SLIDE 9 — CONCLUSION                                    -->
+    <!-- ======================================================= -->
+    <section class="slide" data-slide="9">
+      <div class="slide-inner">
+
+        <div class="section-label animate-item">Conclusion</div>
+        <h2 class="section-title animate-item" data-delay="80">Why ORBIS?</h2>
+
+        <div class="pillars-grid animate-item" data-delay="200">
+          <div class="pillar">
+            <span class="pillar-icon">✅</span>
+            <div class="pillar-title">Technically Validated</div>
+            <div class="pillar-desc">3 stakeholder interviews + 1,000-run Monte Carlo simulation engine</div>
+          </div>
+          <div class="pillar">
+            <span class="pillar-icon">💰</span>
+            <div class="pillar-title">Financially Proven</div>
+            <div class="pillar-desc">~15-month payback, zero debt, PKR 10.0M NPV, 102.9% IRR</div>
+          </div>
+          <div class="pillar">
+            <span class="pillar-icon">🚀</span>
+            <div class="pillar-title">Market-Ready</div>
+            <div class="pillar-desc">No competitor at this price point in South Asian regional aviation</div>
+          </div>
+        </div>
+
+        <div class="conclusion-quote animate-item" data-delay="450">
+          "ORBIS transforms a preventable operational problem into a data-driven solution — purpose-built for regional airports in resource-constrained, climatically extreme environments."
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================= -->
+    <!-- SLIDE 10 — THANK YOU                                     -->
+    <!-- ======================================================= -->
+    <section class="slide hero-slide" data-slide="10">
+      <div class="slide-inner">
+
+        <div class="section-label animate-item" data-delay="100" style="margin-bottom: 20px;">
+          🛫 &nbsp;PIONEERING DYNAMIC RAMP INTELLIGENCE
+        </div>
+
+        <div class="hero-radar animate-item" data-delay="200" style="margin-bottom: 24px;">
+          <div class="radar-ring"></div>
+          <div class="radar-ring"></div>
+          <div class="radar-ring"></div>
+          <div class="radar-sweep"></div>
+          <div class="radar-dot"></div>
+        </div>
+
+        <h1 class="hero-brand animate-item" data-delay="350" style="font-size:64px; letter-spacing:8px; margin-bottom:8px;">
+          ORBIS
+        </h1>
+
+        <h2 class="animate-item" data-delay="500" style="font-size:42px; font-weight:800; color:var(--blue); letter-spacing:-0.5px; margin-bottom:24px;">
+          Thank You
+        </h2>
+
+        <div class="closing-quote-card animate-item" data-delay="650">
+          <div class="closing-tagline">"Smarter Turnarounds. Zero Delays."</div>
+          <div class="closing-subtext">
+            Transforming preventable operational delays into data-driven predictability — purpose-built for regional aviation.
+          </div>
+        </div>
+
+        <div class="hero-year-badge animate-item" data-delay="800">
+          Pilot Deployment &nbsp;•&nbsp; Strategic Partnerships &nbsp;•&nbsp; 2026
+        </div>
+
+      </div>
+    </section>
+
+  </div><!-- /presentation -->
+
+  <!-- ===== SPEAKER NOTES PANEL ===== -->
+  <div id="speaker-notes">
+    <div class="notes-header">📝 Speaker Notes</div>
+
+    <div class="note-content" data-for="1">
+      <ul>
+        <li>Greet the audience — introduce yourself and your co-founder.</li>
+        <li>State the product name: ORBIS — On-Time Ramp Buffer Intelligence System.</li>
+        <li>Emphasise tagline: "Smarter Turnarounds. Zero Delays."</li>
+        <li>Mention mentors and the academic backing.</li>
+      </ul>
+    </div>
+
+    <div class="note-content" data-for="2">
+      <ul>
+        <li>Open with the global market size: $3.83 Billion, growing 5.19% CAGR.</li>
+        <li>Highlight the gap: no dynamic buffer tool for regional emerging-market airports.</li>
+        <li>Bring up the heat problem: 45–50°C → 20% productivity drop (Yu &amp; Shi, 2024).</li>
+        <li>Stress the price contrast: Amadeus PKR 48K vs ORBIS PKR 1K — 50× cheaper.</li>
+        <li>Mention ~370 flight turns/month at pilot station.</li>
+      </ul>
+    </div>
+
+    <div class="note-content" data-for="3">
+      <ul>
+        <li>Introduce the 5 core input variables driving ramp turnarounds.</li>
+        <li><strong>Live Demo on Video:</strong> Drag the Heat Index slider to 48°C or adjust GSE/PRM to show live dynamism!</li>
+        <li>Click <strong>"Run Simulation"</strong> — point to the Mean vs P95 lines on the histogram.</li>
+        <li>Explain: 1,000 Monte Carlo flight iterations generate the recommended dynamic buffer (+14 min) before operations begin.</li>
+      </ul>
+    </div>
+
+    <div class="note-content" data-for="4">
+      <ul>
+        <li>Walk through the table — Amadeus, SITA, INFORM, Damarel — none offer dynamic buffer, heat, or PRM.</li>
+        <li>ORBIS annual cost: ~USD 4,370 vs Amadeus at up to USD 2 Million.</li>
+        <li>Emphasise: 50× cheaper per turn, ~15 month payback, and first-mover in the region.</li>
+      </ul>
+    </div>
+
+    <div class="note-content" data-for="5">
+      <ul>
+        <li>Explain the 4 revenue streams — per-turn fee is the core scalable stream.</li>
+        <li>Monthly subscription covers cloud &amp; data API costs.</li>
+        <li>One-time setup covers integration &amp; ramp staff training.</li>
+        <li>Recalibration fee begins Year 2 for model accuracy maintenance.</li>
+        <li>Walk through the GTM: Y1 pilot → Y2 three stations → Y3 five + licensing.</li>
+        <li>Year 1 revenue PKR 4.12M, net profit PKR 875K (21.2% margin).</li>
+      </ul>
+    </div>
+
+    <div class="note-content" data-for="6">
+      <ul>
+        <li>Initial investment: PKR 2.06M, 100% self-funded — zero external debt.</li>
+        <li>Break-even in just Month 4 — April of Year 1.</li>
+        <li>3-Year ROI: 530%. IRR: 102.9% vs 14% hurdle rate.</li>
+        <li>NPV: PKR 10.0M — strongly positive.</li>
+        <li>Point to the revenue chart: revenue scales from 4.1M to 22.5M over 3 years.</li>
+        <li>Net profit margin expands from 21% to 29%.</li>
+      </ul>
+    </div>
+
+    <div class="note-content" data-for="7">
+      <ul>
+        <li><strong>Walk through the visual comparison:</strong> Red track shows current industry reactive failure (unplanned 45m delay).</li>
+        <li>Green track shows ORBIS proactive model: T-60m telemetry + 1,000 simulations = 100% on-time departure.</li>
+        <li>Highlight the 3 innovation pillars: Monte Carlo engine, PRM mobility modeling, and Heat Index factor.</li>
+        <li>Showcase the growth roadmap: Pilot station → 3 stations → 5 major hubs.</li>
+      </ul>
+    </div>
+
+    <div class="note-content" data-for="8">
+      <ul>
+        <li>Introduce each team member briefly.</li>
+        <li>Areeba Sajid — Co-Founder, aviation operations and product strategy.</li>
+        <li>Danish Butt — Co-Founder, technical development and simulation engine.</li>
+        <li>Dr. Muhammad Ramzan — Academic mentor, research methodology.</li>
+        <li>Burhan-ud-din Tahir — Industry mentor, aviation domain expertise.</li>
+      </ul>
+    </div>
+
+    <div class="note-content" data-for="9">
+      <ul>
+        <li>Summarise the three pillars: Technically Validated, Financially Proven, Market-Ready.</li>
+        <li>Read the closing quote with conviction.</li>
+        <li>Pause briefly, then advance to the Thank You slide.</li>
+      </ul>
+    </div>
+
+    <div class="note-content" data-for="10">
+      <ul>
+        <li>Deliver your concluding pitch statement with confidence and high energy.</li>
+        <li>Reinforce the core slogan: "Smarter Turnarounds. Zero Delays."</li>
+        <li>Conclude: "We are ready to deploy our pilot station and bring next-generation ramp intelligence to regional aviation. Thank you."</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ===== KEYBOARD HINTS ===== -->
+  <div id="controls-hint">
+    <span class="hint-key"><kbd>→</kbd> Next</span>
+    <span class="hint-key"><kbd>←</kbd> Back</span>
+    <span class="hint-key"><kbd>F</kbd> Fullscreen</span>
+    <span class="hint-key"><kbd>N</kbd> Notes</span>
+  </div>
+
+  <!-- Script -->
+  <script src="script.js"></script>
+
+</body>
+</html>
