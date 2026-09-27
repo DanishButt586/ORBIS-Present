@@ -9,7 +9,7 @@
   /* ---------------------------------------------------------------
      1.  STATE
   --------------------------------------------------------------- */
-  const TOTAL_SLIDES = 12;
+  const TOTAL_SLIDES = 13;
   let current = 1;
   let isAnimating = false;
   let notesOpen = false;
@@ -24,6 +24,7 @@
     bindKeyboard();
     bindSimButton();
     bindSimSliders();
+    initTarmacSimulation();
     bindTouch();
     initCursorHide();
     updateUI();
@@ -137,7 +138,11 @@
     }
 
     // Slide-specific hooks
-    if (n === 6 && !slide.dataset.charted) {
+    if (n === 2) {
+      setTimeout(() => startTarmacSim(), 300);
+    }
+
+    if (n === 9 && !slide.dataset.charted) {
       setTimeout(() => drawRevenueChart(), 600);
       slide.dataset.charted = '1';
     }
@@ -151,6 +156,11 @@
     delete countersAnimated[n];
     // Reset chart flag so it redraws
     if (slide.dataset.charted) delete slide.dataset.charted;
+
+    // Reset or pause tarmac if leaving slide 2
+    if (n === 2) {
+      pauseTarmacSim();
+    }
   }
 
   /* ---------------------------------------------------------------
@@ -562,7 +572,716 @@
   }
 
   /* ---------------------------------------------------------------
-     10.  SPEAKER NOTES
+     10.  LIVE TARMAC SIMULATION ENGINE (SLIDE 2)
+  --------------------------------------------------------------- */
+  const TARMAC_CYCLE_MS = 20000; // 20 seconds for full 35-min turn cycle
+  let tarmacPlaying = false;
+  let tarmacProgress = 0;        // 0.0 to 1.0
+  let tarmacAnimId = null;
+  let tarmacLastTs = 0;
+  let tarmacCanvas = null;
+  let tarmacCtx = null;
+
+  function initTarmacSimulation() {
+    tarmacCanvas = document.getElementById('tarmac-canvas');
+    if (!tarmacCanvas) return;
+    tarmacCtx = tarmacCanvas.getContext('2d');
+
+    const btnToggle = document.getElementById('btn-toggle-tarmac');
+    const btnReset = document.getElementById('btn-reset-tarmac');
+
+    if (btnToggle) {
+      btnToggle.addEventListener('click', toggleTarmacSim);
+    }
+    if (btnReset) {
+      btnReset.addEventListener('click', resetTarmacSim);
+    }
+
+    // Set initial size
+    resizeTarmacCanvas();
+    window.addEventListener('resize', resizeTarmacCanvas);
+
+    // Initial render at progress 0
+    renderTarmacFrame(0, performance.now());
+    updateTarmacUI(0);
+  }
+
+  function resizeTarmacCanvas() {
+    if (!tarmacCanvas) return;
+    const rect = tarmacCanvas.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    tarmacCanvas.width = rect.width * dpr;
+    tarmacCanvas.height = rect.height * dpr;
+    if (tarmacCtx) {
+      tarmacCtx.scale(dpr, dpr);
+    }
+    if (!tarmacPlaying) {
+      renderTarmacFrame(tarmacProgress, performance.now());
+    }
+  }
+
+  function startTarmacSim() {
+    if (tarmacPlaying) return;
+    tarmacPlaying = true;
+    tarmacLastTs = performance.now();
+    updateToggleBtnUI(true);
+    cancelAnimationFrame(tarmacAnimId);
+    tarmacAnimId = requestAnimationFrame(tarmacLoop);
+  }
+
+  function pauseTarmacSim() {
+    tarmacPlaying = false;
+    updateToggleBtnUI(false);
+    cancelAnimationFrame(tarmacAnimId);
+  }
+
+  function resetTarmacSim() {
+    tarmacProgress = 0;
+    tarmacLastTs = performance.now();
+    updateTarmacUI(0);
+    renderTarmacFrame(0, tarmacLastTs);
+    startTarmacSim();
+  }
+
+  function toggleTarmacSim() {
+    if (tarmacPlaying) {
+      pauseTarmacSim();
+    } else {
+      if (tarmacProgress >= 1) tarmacProgress = 0;
+      startTarmacSim();
+    }
+  }
+
+  function updateToggleBtnUI(isPlaying) {
+    const icon = document.getElementById('tarmac-btn-icon');
+    const text = document.getElementById('tarmac-btn-text');
+    if (icon) icon.textContent = isPlaying ? '❚❚' : '▶';
+    if (text) text.textContent = isPlaying ? 'Pause Simulation' : 'Run Turnaround Cycle';
+  }
+
+  function tarmacLoop(ts) {
+    if (!tarmacPlaying) return;
+    const delta = ts - tarmacLastTs;
+    tarmacLastTs = ts;
+
+    tarmacProgress += delta / TARMAC_CYCLE_MS;
+
+    if (tarmacProgress >= 1.0) {
+      tarmacProgress = 1.0;
+      renderTarmacFrame(1.0, ts);
+      updateTarmacUI(1.0);
+      // Seamless auto-loop after a 2-second pause at takeoff
+      setTimeout(() => {
+        if (current === 2) {
+          tarmacProgress = 0;
+          if (tarmacPlaying) {
+            tarmacLastTs = performance.now();
+            tarmacAnimId = requestAnimationFrame(tarmacLoop);
+          }
+        }
+      }, 2200);
+      return;
+    }
+
+    renderTarmacFrame(tarmacProgress, ts);
+    updateTarmacUI(tarmacProgress);
+
+    tarmacAnimId = requestAnimationFrame(tarmacLoop);
+  }
+
+  function updateTarmacUI(p) {
+    // 1. Digital Clock (00:00 -> 35:00 min)
+    const clockEl = document.getElementById('tarmac-clock');
+    const totalSec = Math.floor(p * 35 * 60);
+    const mm = String(Math.floor(totalSec / 60)).padStart(2, '0');
+    const ss = String(totalSec % 60).padStart(2, '0');
+    if (clockEl) clockEl.textContent = `${mm}:${ss}`;
+
+    // 2. Phase Indicator & Task Pills
+    const phaseEl = document.getElementById('tarmac-phase-text');
+    const pillChocks = document.getElementById('task-chocks');
+    const pillBaggage = document.getElementById('task-baggage');
+    const pillFuel = document.getElementById('task-fuel');
+    const pillPrm = document.getElementById('task-prm');
+    const pillPushback = document.getElementById('task-pushback');
+
+    const pills = [pillChocks, pillBaggage, pillFuel, pillPrm, pillPushback];
+    pills.forEach(el => el && el.classList.remove('active'));
+
+    if (p < 0.18) {
+      if (phaseEl) phaseEl.innerHTML = '🛬 Phase 1: Inbound Taxi &amp; Gate Docking';
+    } else if (p < 0.38) {
+      if (phaseEl) phaseEl.innerHTML = '🔌 Phase 2: Chocks In, GPU Power &amp; Cargo Deplaning';
+      if (pillChocks) pillChocks.classList.add('active');
+      if (pillBaggage) pillBaggage.classList.add('active');
+    } else if (p < 0.65) {
+      if (phaseEl) phaseEl.innerHTML = '⛽ Phase 2: Parallel Wing Fueling &amp; PRM Passenger Boarding';
+      if (pillChocks) pillChocks.classList.add('active');
+      if (pillBaggage) pillBaggage.classList.add('active');
+      if (pillFuel) pillFuel.classList.add('active');
+      if (pillPrm) pillPrm.classList.add('active');
+    } else if (p < 0.78) {
+      if (phaseEl) phaseEl.innerHTML = '📋 Phase 2: Cabin Secured &amp; Ground Equipment Clearance';
+      if (pillChocks) pillChocks.classList.add('active');
+      if (pillBaggage) pillBaggage.classList.add('active');
+      if (pillFuel) pillFuel.classList.add('active');
+      if (pillPrm) pillPrm.classList.add('active');
+    } else {
+      if (phaseEl) phaseEl.innerHTML = '🛫 Phase 3: Pushback &amp; On-Time Departure (35:00 min)';
+      if (pillChocks) pillChocks.classList.add('active');
+      if (pillBaggage) pillBaggage.classList.add('active');
+      if (pillFuel) pillFuel.classList.add('active');
+      if (pillPrm) pillPrm.classList.add('active');
+      if (pillPushback) pillPushback.classList.add('active');
+    }
+  }
+
+  /* ---------------------------------------------------------------
+     TARMAC CANVAS RENDERING ENGINE
+  --------------------------------------------------------------- */
+  function renderTarmacFrame(p, now) {
+    if (!tarmacCanvas || !tarmacCtx) return;
+    const ctx = tarmacCtx;
+    const rect = tarmacCanvas.getBoundingClientRect();
+    const W = rect.width;
+    const H = rect.height;
+
+    ctx.clearRect(0, 0, W, H);
+
+    // Coordinate Anchors
+    const bayX = Math.round(W * 0.44);
+    const bayY = Math.round(H * 0.52);
+
+    // 1. Apron Tarmac Asphalt Background
+    const bgGrad = ctx.createLinearGradient(0, 0, 0, H);
+    bgGrad.addColorStop(0, '#131e31');
+    bgGrad.addColorStop(1, '#0b1322');
+    ctx.fillStyle = bgGrad;
+    ctx.fillRect(0, 0, W, H);
+
+    // Concrete Slab Joints Grid
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.04)';
+    ctx.lineWidth = 1;
+    for (let x = 30; x < W; x += 55) {
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, H);
+      ctx.stroke();
+    }
+    for (let y = 30; y < H; y += 45) {
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(W, y);
+      ctx.stroke();
+    }
+
+    // 2. Stand Markings & Safety Enclosure
+    // Red & white dashed safety box
+    ctx.save();
+    ctx.setLineDash([8, 6]);
+    ctx.strokeStyle = 'rgba(239, 68, 68, 0.6)';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(bayX - 110, bayY - 90, 230, 180);
+    ctx.restore();
+
+    // Taxiway Centerline (Yellow Lead-in Line)
+    ctx.strokeStyle = '#F59E0B';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(W + 20, bayY);
+    ctx.lineTo(bayX - 50, bayY);
+    ctx.stroke();
+
+    // Stop Bar (T-Bar)
+    ctx.strokeStyle = '#EF4444';
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.moveTo(bayX - 52, bayY - 18);
+    ctx.lineTo(bayX - 52, bayY + 18);
+    ctx.stroke();
+
+    // Stenciled Text: "STAND 04" on tarmac
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.22)';
+    ctx.font = 'bold 13px Inter, monospace';
+    ctx.textAlign = 'left';
+    ctx.fillText('STAND 04', bayX - 100, bayY - 70);
+    ctx.fillText('B737-800', bayX - 100, bayY + 80);
+
+    // Staging equipment boundary boxes
+    ctx.strokeStyle = 'rgba(245, 158, 11, 0.35)';
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(bayX - 95, bayY + 45, 45, 35); // GSE staging box
+    ctx.fillStyle = 'rgba(245, 158, 11, 0.35)';
+    ctx.font = '9px Inter, sans-serif';
+    ctx.fillText('GSE', bayX - 85, bayY + 65);
+
+    // 3. Aircraft Kinematics & States
+    let planeX = bayX;
+    let planeY = bayY;
+    let planeRot = Math.PI; // Heading 180° = facing left (docked)
+    let planeScale = 1.0;
+    let enginesOn = false;
+    let showChocks = false;
+    let showGpu = false;
+    let showBaggage = false;
+    let showFuel = false;
+    let showPrm = false;
+    let showTug = false;
+    let tugPushing = false;
+
+    if (p < 0.18) {
+      // Phase 1: Inbound Taxi
+      const tNorm = p / 0.18;
+      const eased = 1 - Math.pow(1 - tNorm, 2.5); // Smooth deceleration
+      planeX = (W + 90) - eased * (W + 90 - bayX);
+      planeY = bayY;
+      planeRot = Math.PI;
+    } else if (p < 0.78) {
+      // Phase 2: Docked at Stand 04
+      planeX = bayX;
+      planeY = bayY;
+      planeRot = Math.PI;
+      showChocks = true;
+      showGpu = true;
+
+      if (p >= 0.22 && p < 0.72) showBaggage = true;
+      if (p >= 0.38 && p < 0.70) showFuel = true;
+      if (p >= 0.38 && p < 0.74) showPrm = true;
+
+      if (p >= 0.70) {
+        showTug = true; // Tug positions in front of nose gear
+      }
+    } else if (p < 0.88) {
+      // Phase 3a: Pushback Tug Operation
+      const tNorm = (p - 0.78) / 0.10; // 0 to 1
+      showTug = true;
+      tugPushing = true;
+      // Plane moves backwards and turns 90 degrees
+      planeX = bayX + tNorm * 110;
+      planeY = bayY - Math.sin(tNorm * Math.PI * 0.5) * 20;
+      planeRot = Math.PI - tNorm * (Math.PI * 0.5); // Turns from 180° to 90° (upward)
+    } else {
+      // Phase 3b: Departure Taxi & Takeoff Acceleration
+      const tNorm = (p - 0.88) / 0.12; // 0 to 1
+      enginesOn = true;
+      // Heading straight to the right along runway
+      planeRot = 0; // Facing right
+      planeY = bayY - 20;
+      const accel = Math.pow(tNorm, 2); // Acceleration
+      planeX = (bayX + 110) + accel * (W - bayX);
+      planeScale = 1.0 + tNorm * 0.25; // Climbing / zoom effect
+    }
+
+    // 4. Draw Ground Support Equipment (GSE) when parked or active
+    if (showGpu) {
+      drawGPU(ctx, bayX - 35, bayY + 50, bayX - 52, bayY + 6, now, p >= 0.20 && p < 0.72);
+    }
+
+    if (showBaggage) {
+      drawBaggageBelt(ctx, bayX + 40, bayY + 36, bayX + 28, bayY + 12, now);
+    }
+
+    if (showFuel) {
+      drawFuelTruck(ctx, bayX + 20, bayY - 60, bayX + 12, bayY - 26, now);
+    }
+
+    if (showPrm) {
+      drawPRMStairs(ctx, bayX - 42, bayY - 42, bayX - 32, bayY - 12, bayX + 38, bayY - 40, now);
+    }
+
+    if (showChocks && !tugPushing) {
+      drawChocks(ctx, bayX + 12, bayY - 24);
+      drawChocks(ctx, bayX + 12, bayY + 24);
+    }
+
+    if (showTug) {
+      if (tugPushing) {
+        // Connected to nose during pushback
+        const tugDist = 48;
+        const tugX = planeX + Math.cos(planeRot) * tugDist;
+        const tugY = planeY + Math.sin(planeRot) * tugDist;
+        drawPushbackTug(ctx, tugX, tugY, planeRot, true);
+      } else {
+        // Staged ahead of nose
+        drawPushbackTug(ctx, bayX - 78, bayY, Math.PI, false);
+      }
+    }
+
+    // 5. Draw Vector Aircraft
+    drawVectorAircraft(ctx, planeX, planeY, planeRot, planeScale, now, enginesOn);
+  }
+
+  /* ---------------------------------------------------------------
+     DETAILED VECTOR AIRCRAFT (B737 STYLE TOP-DOWN)
+  --------------------------------------------------------------- */
+  function drawVectorAircraft(ctx, x, y, heading, scale, now, enginesOn) {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(heading);
+    ctx.scale(scale, scale);
+
+    // Drop Shadow
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.42)';
+    ctx.beginPath();
+    ctx.ellipse(3, 4, 60, 18, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Twin Engine Jet Blast (if active)
+    if (enginesOn) {
+      const blastLen = 35 + Math.sin(now * 0.05) * 12;
+      const blastGrad = ctx.createLinearGradient(0, 0, -blastLen, 0);
+      blastGrad.addColorStop(0, 'rgba(249, 115, 22, 0.9)');
+      blastGrad.addColorStop(0.5, 'rgba(56, 189, 248, 0.5)');
+      blastGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+
+      // Left engine exhaust
+      ctx.save();
+      ctx.translate(-5, -28);
+      ctx.fillStyle = blastGrad;
+      ctx.beginPath();
+      ctx.moveTo(0, -6);
+      ctx.lineTo(-blastLen, -2);
+      ctx.lineTo(0, 2);
+      ctx.fill();
+      ctx.restore();
+
+      // Right engine exhaust
+      ctx.save();
+      ctx.translate(-5, 28);
+      ctx.fillStyle = blastGrad;
+      ctx.beginPath();
+      ctx.moveTo(0, -2);
+      ctx.lineTo(-blastLen, 2);
+      ctx.lineTo(0, 6);
+      ctx.fill();
+      ctx.restore();
+    }
+
+    // Swept Main Wings
+    ctx.fillStyle = '#CBD5E1';
+    ctx.beginPath();
+    ctx.moveTo(15, -6);
+    ctx.lineTo(-12, -62); // Port wing tip
+    ctx.lineTo(-24, -62);
+    ctx.lineTo(-10, -6);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.moveTo(15, 6);
+    ctx.lineTo(-12, 62);  // Starboard wing tip
+    ctx.lineTo(-24, 62);
+    ctx.lineTo(-10, 6);
+    ctx.closePath();
+    ctx.fill();
+
+    // Wingtips / Winglets (Aviation Blue)
+    ctx.fillStyle = '#0055A4';
+    ctx.fillRect(-24, -64, 12, 4);
+    ctx.fillRect(-24, 60, 12, 4);
+
+    // Twin Engines (Turbofan Nacelles)
+    ctx.fillStyle = '#94A3B8';
+    // Port engine
+    ctx.beginPath();
+    ctx.roundRect(-4, -33, 22, 10, 4);
+    ctx.fill();
+    ctx.fillStyle = '#334155';
+    ctx.fillRect(14, -32, 3, 8); // Engine intake ring
+
+    // Starboard engine
+    ctx.fillStyle = '#94A3B8';
+    ctx.beginPath();
+    ctx.roundRect(-4, 23, 22, 10, 4);
+    ctx.fill();
+    ctx.fillStyle = '#334155';
+    ctx.fillRect(14, 24, 3, 8); // Engine intake ring
+
+    // Horizontal Stabilizers (Tail Wings)
+    ctx.fillStyle = '#CBD5E1';
+    ctx.beginPath();
+    ctx.moveTo(-45, -4);
+    ctx.lineTo(-65, -26);
+    ctx.lineTo(-72, -26);
+    ctx.lineTo(-62, -4);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.moveTo(-45, 4);
+    ctx.lineTo(-65, 26);
+    ctx.lineTo(-72, 26);
+    ctx.lineTo(-62, 4);
+    ctx.closePath();
+    ctx.fill();
+
+    // Fuselage (Main Body)
+    const fuseGrad = ctx.createLinearGradient(0, -11, 0, 11);
+    fuseGrad.addColorStop(0, '#FFFFFF');
+    fuseGrad.addColorStop(0.5, '#F1F5F9');
+    fuseGrad.addColorStop(1, '#CBD5E1');
+    ctx.fillStyle = fuseGrad;
+
+    ctx.beginPath();
+    ctx.moveTo(60, 0); // Nose cone
+    ctx.bezierCurveTo(55, -11, 40, -11, 10, -11);
+    ctx.lineTo(-50, -10);
+    ctx.bezierCurveTo(-65, -7, -72, -3, -75, 0); // Tail cone
+    ctx.bezierCurveTo(-72, 3, -65, 7, -50, 10);
+    ctx.lineTo(10, 11);
+    ctx.bezierCurveTo(40, 11, 55, 11, 60, 0);
+    ctx.closePath();
+    ctx.fill();
+    ctx.strokeStyle = '#94A3B8';
+    ctx.lineWidth = 0.8;
+    ctx.stroke();
+
+    // Airline Liveried Cheatline (Navy Blue Stripe)
+    ctx.fillStyle = '#0055A4';
+    ctx.fillRect(-52, -1.5, 95, 3);
+
+    // Cockpit Windows (Dark Glass with Cyan Specular Shine)
+    ctx.fillStyle = '#0F172A';
+    ctx.beginPath();
+    ctx.moveTo(52, -5);
+    ctx.lineTo(43, -7);
+    ctx.lineTo(43, 7);
+    ctx.lineTo(52, 5);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.strokeStyle = '#38BDF8';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(51, -3);
+    ctx.lineTo(45, -5);
+    ctx.stroke();
+
+    // Vertical Fin Dorsal Spine (Tail Fin)
+    ctx.fillStyle = '#0055A4';
+    ctx.beginPath();
+    ctx.roundRect(-70, -2, 22, 4, 2);
+    ctx.fill();
+
+    // Navigation & Strobe Lights
+    // Left Wing Tip Nav Light (Red)
+    ctx.fillStyle = '#EF4444';
+    ctx.beginPath();
+    ctx.arc(-18, -63, 2.5, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Right Wing Tip Nav Light (Green)
+    ctx.fillStyle = '#10B981';
+    ctx.beginPath();
+    ctx.arc(-18, 63, 2.5, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Red Anti-Collision Beacon (Pulsing every 800ms)
+    const beaconPulse = (Math.sin(now * 0.007) + 1) * 0.5;
+    ctx.fillStyle = `rgba(239, 68, 68, ${0.4 + beaconPulse * 0.6})`;
+    ctx.beginPath();
+    ctx.arc(8, 0, 3 + beaconPulse * 2.5, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.restore();
+  }
+
+  /* ---------------------------------------------------------------
+     GSE VEHICLES & EQUIPMENT DRAWING FUNCTIONS
+  --------------------------------------------------------------- */
+  function drawChocks(ctx, x, y) {
+    ctx.fillStyle = '#FBBF24';
+    ctx.fillRect(x - 5, y - 4, 10, 3);
+    ctx.fillRect(x - 5, y + 2, 10, 3);
+    ctx.fillStyle = '#0F172A';
+    ctx.fillRect(x - 2, y - 4, 4, 9);
+  }
+
+  function drawGPU(ctx, gx, gy, px, py, now, active) {
+    // Mobile GPU Cart
+    ctx.fillStyle = '#EAB308';
+    ctx.beginPath();
+    ctx.roundRect(gx - 12, gy - 8, 24, 16, 3);
+    ctx.fill();
+    ctx.strokeStyle = '#CA8A04';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    // Wheels
+    ctx.fillStyle = '#1E293B';
+    ctx.fillRect(gx - 10, gy - 10, 5, 2);
+    ctx.fillRect(gx + 5, gy - 10, 5, 2);
+    ctx.fillRect(gx - 10, gy + 8, 5, 2);
+    ctx.fillRect(gx + 5, gy + 8, 5, 2);
+
+    // Label
+    ctx.fillStyle = '#0F172A';
+    ctx.font = 'bold 8px Inter, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('GPU', gx, gy + 3);
+
+    // Power Cable to Aircraft Nose
+    ctx.strokeStyle = '#FACC15';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(gx, gy - 8);
+    ctx.quadraticCurveTo(gx - 8, py + 12, px, py);
+    ctx.stroke();
+
+    // Electric current flow pulse
+    if (active) {
+      const pulseT = (now % 1000) / 1000;
+      const dotX = gx + (px - gx) * pulseT;
+      const dotY = (gy - 8) + (py - (gy - 8)) * pulseT;
+      ctx.fillStyle = '#38BDF8';
+      ctx.beginPath();
+      ctx.arc(dotX, dotY, 2.5, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  function drawBaggageBelt(ctx, bx, by, px, py, now) {
+    // Belt Loader Vehicle
+    ctx.fillStyle = '#F8FAFC';
+    ctx.beginPath();
+    ctx.roundRect(bx - 14, by - 8, 28, 16, 3);
+    ctx.fill();
+    ctx.fillStyle = '#0284C7';
+    ctx.fillRect(bx + 4, by - 7, 8, 14); // Driver cab
+
+    // Conveyor Belt Ramp to Cargo Door
+    ctx.strokeStyle = '#334155';
+    ctx.lineWidth = 6;
+    ctx.beginPath();
+    ctx.moveTo(bx - 12, by);
+    ctx.lineTo(px, py);
+    ctx.stroke();
+
+    // Moving Luggage on Belt
+    const offset = (now * 0.04) % 20;
+    const bags = [
+      { col: '#EF4444', d: 0.2 },
+      { col: '#0284C7', d: 0.55 },
+      { col: '#10B981', d: 0.85 }
+    ];
+
+    bags.forEach((b, i) => {
+      const t = (b.d + offset * 0.05) % 1;
+      const lx = (bx - 12) + (px - (bx - 12)) * t;
+      const ly = by + (py - by) * t;
+      ctx.fillStyle = b.col;
+      ctx.fillRect(lx - 2, ly - 2, 4, 4);
+    });
+
+    // Baggage Tow Tractor + Cart
+    ctx.fillStyle = '#F59E0B';
+    ctx.fillRect(bx + 20, by - 5, 12, 10);
+    ctx.fillStyle = '#64748B';
+    ctx.fillRect(bx + 34, by - 4, 10, 8); // Cart 1
+    ctx.fillRect(bx + 46, by - 4, 10, 8); // Cart 2
+  }
+
+  function drawFuelTruck(ctx, fx, fy, wx, wy, now) {
+    // Fuel Hydrant Tanker Truck
+    ctx.fillStyle = '#F8FAFC';
+    ctx.beginPath();
+    ctx.roundRect(fx - 18, fy - 10, 36, 20, 4);
+    ctx.fill();
+    ctx.fillStyle = '#EF4444';
+    ctx.fillRect(fx - 14, fy - 8, 18, 16); // Red aviation fuel tank
+    ctx.fillStyle = '#FFFFFF';
+    ctx.font = 'bold 7px Inter, sans-serif';
+    ctx.fillText('JET A-1', fx - 5, fy + 3);
+
+    // Fueling Hose to Wing Port
+    ctx.strokeStyle = '#1E293B';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.moveTo(fx, fy + 10);
+    ctx.quadraticCurveTo(fx - 6, wy - 8, wx, wy);
+    ctx.stroke();
+
+    // Pulsing Fuel Flow dots
+    const flowT = (now % 1200) / 1200;
+    const hx = fx + (wx - fx) * flowT;
+    const hy = (fy + 10) + (wy - (fy + 10)) * flowT;
+    ctx.fillStyle = '#F59E0B';
+    ctx.beginPath();
+    ctx.arc(hx, hy, 2, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  function drawPRMStairs(ctx, sx, sy, px1, py1, px2, py2, now) {
+    // Passenger Forward Stairs
+    ctx.fillStyle = '#64748B';
+    ctx.fillRect(sx - 8, sy - 8, 16, 16);
+    ctx.strokeStyle = '#94A3B8';
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.moveTo(sx, sy);
+    ctx.lineTo(px1, py1);
+    ctx.stroke();
+
+    // Aft PRM Ambulift High-Lift Vehicle
+    ctx.fillStyle = '#F8FAFC';
+    ctx.beginPath();
+    ctx.roundRect(px2 - 8, py2 - 20, 18, 16, 2);
+    ctx.fill();
+    ctx.strokeStyle = '#0284C7';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    // Scissor Lift Metal Struts
+    ctx.strokeStyle = '#64748B';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(px2 - 6, py2 - 4);
+    ctx.lineTo(px2 + 6, py2 - 18);
+    ctx.moveTo(px2 + 6, py2 - 4);
+    ctx.lineTo(px2 - 6, py2 - 18);
+    ctx.stroke();
+
+    // Glowing PRM Wheelchair Badge
+    ctx.fillStyle = '#0284C7';
+    ctx.font = 'bold 11px Inter, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('♿', px2 + 1, py2 - 8);
+  }
+
+  function drawPushbackTug(ctx, tx, ty, rot, connected) {
+    ctx.save();
+    ctx.translate(tx, ty);
+    ctx.rotate(rot);
+
+    // Towbarless Pushback Tractor
+    ctx.fillStyle = '#EAB308';
+    ctx.beginPath();
+    ctx.roundRect(-14, -10, 28, 20, 4);
+    ctx.fill();
+
+    // Black Hazard Chevrons on Rear
+    ctx.fillStyle = '#0F172A';
+    ctx.fillRect(-14, -8, 4, 16);
+
+    // Operator Cabin
+    ctx.fillStyle = '#1E293B';
+    ctx.fillRect(2, -7, 8, 14);
+
+    // Tow Clamp to Nose Gear
+    if (connected) {
+      ctx.strokeStyle = '#475569';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(-14, 0);
+      ctx.lineTo(-24, 0);
+      ctx.stroke();
+    }
+
+    ctx.restore();
+  }
+
+  /* ---------------------------------------------------------------
+     11.  SPEAKER NOTES
   --------------------------------------------------------------- */
   function toggleNotes() {
     const panel = document.getElementById('speaker-notes');
@@ -617,7 +1336,7 @@
           break;
       }
 
-      // Number keys 1–9, 0 for slide 10, '-' for slide 11, and '=' for slide 12
+      // Number keys 1–9, 0 for slide 10, '-' for slide 11, '=' for slide 12, ']' or '`' for slide 13
       if (e.key >= '1' && e.key <= '9') {
         const n = parseInt(e.key);
         if (n <= TOTAL_SLIDES) goToSlide(n);
@@ -627,6 +1346,8 @@
         goToSlide(11);
       } else if (e.key === '=') {
         goToSlide(12);
+      } else if (e.key === ']' || e.key === '`') {
+        goToSlide(13);
       }
     });
 

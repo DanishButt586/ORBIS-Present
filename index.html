@@ -27,7 +27,7 @@
   <div id="progress-bar"></div>
 
   <!-- Slide Counter -->
-  <div id="slide-counter">01 / 12</div>
+  <div id="slide-counter">01 / 13</div>
 
   <!-- ===== PRESENTATION ===== -->
   <div id="presentation">
@@ -73,69 +73,232 @@
     </section>
 
     <!-- ======================================================= -->
-    <!-- SLIDE 2 — MARKET OPPORTUNITY                            -->
+    <!-- SLIDE 2 — WHAT IS AN AIRCRAFT TURNAROUND? (LIVE SIM)   -->
     <!-- ======================================================= -->
     <section class="slide" data-slide="2">
       <div class="slide-inner">
 
-        <div class="section-label animate-item">Market</div>
-        <h2 class="section-title animate-item" data-delay="80">Market Opportunity</h2>
-        <p class="section-subtitle animate-item" data-delay="160">
-          No dynamic buffer optimization tool exists for regional airports in emerging markets — incumbents are built for mega-hubs and priced accordingly.
+        <div class="section-label animate-item" style="color:var(--blue); background:var(--ice);">
+          Aviation Fundamentals
+        </div>
+        <h2 class="section-title animate-item" data-delay="80">
+          What is an Aircraft Turnaround?
+        </h2>
+        <p class="section-subtitle animate-item" data-delay="160" style="margin-bottom: 16px;">
+          The critical 35–45 minute ground window where 5+ crews coordinate parallel operations before takeoff.
         </p>
 
-        <div class="stats-row animate-item" data-delay="300">
-          <div class="stat-card accent-blue">
-            <span class="stat-icon">🌍</span>
-            <div class="stat-value text-blue">$<span class="counter" data-target="3.83" data-decimals="2">0</span>B</div>
-            <div class="stat-label">Global Ground Handling<br>Software Market (2024)</div>
-            <div class="stat-detail">Growing at 5.19% CAGR → $5.75B by 2032</div>
-          </div>
-          <div class="stat-card accent-amber">
-            <span class="stat-icon">🌡️</span>
-            <div class="stat-value text-amber"><span class="counter" data-target="45" data-suffix="–50°C">0</span></div>
-            <div class="stat-label">Heat Index at<br>Pilot Airport</div>
-            <div class="stat-detail">→ 20%+ Ramp Productivity Drop</div>
-          </div>
-          <div class="stat-card accent-green">
-            <span class="stat-icon">✈️</span>
-            <div class="stat-value text-green">~<span class="counter" data-target="370">0</span></div>
-            <div class="stat-label">Flight Turns / Month<br>at Pilot Station</div>
-            <div class="stat-detail">High volume, no smart buffer tool</div>
-          </div>
-        </div>
+        <!-- Tarmac Simulation Stage -->
+        <div class="tarmac-sim-container animate-item" data-delay="260">
+          
+          <!-- Top Telemetry Header -->
+          <div class="tarmac-header">
+            <div class="tarmac-bay-badge">
+              <span class="bay-dot"></span>
+              <span>STAND 04 &nbsp;|&nbsp; B737-800</span>
+            </div>
+            
+            <div class="tarmac-phase-indicator">
+              <span id="tarmac-phase-text" class="phase-badge">🛬 Phase 1: Inbound Taxi &amp; Docking</span>
+            </div>
 
-        <div class="stats-row animate-item" data-delay="500">
-          <div class="stat-card" style="grid-column: 1 / -1;">
-            <div style="display:flex; align-items:center; justify-content:center; gap:48px; flex-wrap:wrap;">
-              <div style="text-align:center;">
-                <div class="stat-label" style="margin-bottom:8px;">Amadeus (Incumbent)</div>
-                <div class="stat-value" style="font-size:28px; color:var(--red);">PKR 48,000+<span style="font-size:14px; font-weight:500;">/turn</span></div>
-              </div>
-              <div style="font-size:32px; font-weight:900; color:var(--text-muted);">vs</div>
-              <div style="text-align:center;">
-                <div class="stat-label" style="margin-bottom:8px;">ORBIS (Our Solution)</div>
-                <div class="stat-value" style="font-size:28px; color:var(--green);">PKR 1,000<span style="font-size:14px; font-weight:500;">/turn</span></div>
-              </div>
-              <div style="text-align:center; padding:12px 24px; background:var(--green-bg); border-radius:10px;">
-                <div class="stat-value text-green" style="font-size:32px;"><span class="counter" data-target="50">0</span>×</div>
-                <div class="stat-label">Cheaper</div>
-              </div>
+            <div class="tarmac-timer-box">
+              <span class="timer-label">Turnaround Elapsed:</span>
+              <span id="tarmac-clock" class="timer-digits">00:00</span>
+              <span class="timer-target">/ 35:00 min</span>
             </div>
           </div>
+
+          <!-- Canvas Tarmac View -->
+          <div class="tarmac-canvas-wrap">
+            <canvas id="tarmac-canvas"></canvas>
+          </div>
+
+          <!-- Bottom GHA Operations Live Checklist -->
+          <div class="tarmac-checklist">
+            <div class="gha-task-pill" id="task-chocks">
+              <span class="task-icon">🔌</span>
+              <span class="task-name">GPU &amp; Chocks</span>
+            </div>
+            <div class="gha-task-pill" id="task-baggage">
+              <span class="task-icon">🧳</span>
+              <span class="task-name">Baggage Ops</span>
+            </div>
+            <div class="gha-task-pill" id="task-fuel">
+              <span class="task-icon">⛽</span>
+              <span class="task-name">Wing Fueling</span>
+            </div>
+            <div class="gha-task-pill" id="task-prm">
+              <span class="task-icon">♿</span>
+              <span class="task-name">Boarding &amp; PRM</span>
+            </div>
+            <div class="gha-task-pill" id="task-pushback">
+              <span class="task-icon">🛫</span>
+              <span class="task-name">Pushback &amp; Fly</span>
+            </div>
+          </div>
+
         </div>
 
-        <p class="source-note animate-item" data-delay="650">
-          Sources: ¹ 360iResearch (2025) — Ground Handling Software Market &nbsp; ² Yu &amp; Shi (2024) — Heat and Productivity &nbsp; ³ Amadeus Annual Report (2024) — Revenue per passenger boarded
-        </p>
+        <!-- Simulation Control Bar -->
+        <div class="tarmac-controls-bar animate-item" data-delay="420">
+          <button id="btn-toggle-tarmac" class="btn-tarmac-action">
+            <span id="tarmac-btn-icon">▶</span> <span id="tarmac-btn-text">Run Turnaround Cycle</span>
+          </button>
+          <button id="btn-reset-tarmac" class="btn-tarmac-secondary">↺ Replay</button>
+          
+          <div class="turnaround-takeaway">
+            💡 <strong>The Tarmac Paradox:</strong> Ye simulation ideal turnaround dikhati hai — lekin ground par 48°C heat aur equipment jams is nazuk chain ko tor kar cascading delays create karte hain.
+          </div>
+        </div>
 
       </div>
     </section>
 
     <!-- ======================================================= -->
-    <!-- SLIDE 3 — PRODUCT & VALUE PROPOSITION                   -->
+    <!-- SLIDE 3 — THE PROBLEM: REACTIVE BREAKDOWN               -->
     <!-- ======================================================= -->
     <section class="slide" data-slide="3">
+      <div class="slide-inner">
+
+        <div class="section-label animate-item" style="color:var(--red); background:var(--red-bg);">
+          The Problem &amp; Status Quo
+        </div>
+        <h2 class="section-title animate-item" data-delay="80">
+          Traditional Ground Handling: The Reactive Breakdown
+        </h2>
+        <p class="section-subtitle animate-item" data-delay="160" style="margin-bottom: 26px;">
+          Legacy turnaround operations are blind to dynamic ramp conditions.
+        </p>
+
+        <!-- 4-Stage High-Visibility Pipeline -->
+        <div class="pipeline-grid animate-item" data-delay="260">
+          <div class="pipeline-card danger">
+            <span class="pipeline-step red">Stage 01</span>
+            <div class="pipeline-icon">🛬</div>
+            <div class="pipeline-title">Static Buffers</div>
+            <div class="pipeline-desc">Fixed 35m allocation blind to live conditions</div>
+            <span class="pipeline-badge badge-danger">Blind Scheduling</span>
+          </div>
+
+          <div class="pipeline-card danger">
+            <span class="pipeline-step red">Stage 02</span>
+            <div class="pipeline-icon">🌡️</div>
+            <div class="pipeline-title">45°C+ Ramp Heat</div>
+            <div class="pipeline-desc">Worker fatigue slows ramp pace by 20%+</div>
+            <span class="pipeline-badge badge-warning">-20% Pace Drop</span>
+          </div>
+
+          <div class="pipeline-card danger">
+            <span class="pipeline-step red">Stage 03</span>
+            <div class="pipeline-icon">⚙️</div>
+            <div class="pipeline-title">GSE Bottlenecks</div>
+            <div class="pipeline-desc">Equipment snags with zero advance alert</div>
+            <span class="pipeline-badge badge-danger">Zero Warning</span>
+          </div>
+
+          <div class="pipeline-card danger">
+            <span class="pipeline-step red">Stage 04</span>
+            <div class="pipeline-icon">⚠️</div>
+            <div class="pipeline-title">Cascading Delays</div>
+            <div class="pipeline-desc">Reactive reports filed after flight is late</div>
+            <span class="pipeline-badge badge-danger">45m+ Delay &amp; Fines</span>
+          </div>
+        </div>
+
+        <!-- Impact Callout Banner -->
+        <div class="pipeline-stats-banner danger-banner animate-item" data-delay="420">
+          <div>
+            <div class="p-stat-val text-red">45m+</div>
+            <div class="p-stat-label">Average Flight Delay per Late Turn</div>
+          </div>
+          <div>
+            <div class="p-stat-val text-amber">-20%</div>
+            <div class="p-stat-label">Ramp Pace Collapse in Extreme Heat</div>
+          </div>
+          <div>
+            <div class="p-stat-val text-navy">PKR 300K+</div>
+            <div class="p-stat-label">Estimated Direct Cost per Delay Incident</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================= -->
+    <!-- SLIDE 4 — THE SOLUTION: PREDICTIVE TURNAROUND           -->
+    <!-- ======================================================= -->
+    <section class="slide" data-slide="4">
+      <div class="slide-inner">
+
+        <div class="section-label animate-item" style="color:var(--green); background:var(--green-bg);">
+          The Solution &amp; Innovation
+        </div>
+        <h2 class="section-title animate-item" data-delay="80">
+          Predictive Turnaround Intelligence
+        </h2>
+        <p class="section-subtitle animate-item" data-delay="160" style="margin-bottom: 26px;">
+          Eliminating turnaround delays before the aircraft even touches down.
+        </p>
+
+        <!-- 4-Phase High-Visibility Pipeline -->
+        <div class="pipeline-grid animate-item" data-delay="240">
+          <div class="pipeline-card success">
+            <span class="pipeline-step green">Phase 01</span>
+            <div class="pipeline-icon">📡</div>
+            <div class="pipeline-title">T-60m Telemetry</div>
+            <div class="pipeline-desc">Live heat, GSE readiness &amp; PRM manifest ingested</div>
+            <span class="pipeline-badge badge-info">Live Ingestion</span>
+          </div>
+
+          <div class="pipeline-card success">
+            <span class="pipeline-step green">Phase 02</span>
+            <div class="pipeline-icon">🎲</div>
+            <div class="pipeline-title">1,000 MC Runs</div>
+            <div class="pipeline-desc">Stochastic probability models ramp variance</div>
+            <span class="pipeline-badge badge-success">Variance Modeled</span>
+          </div>
+
+          <div class="pipeline-card success">
+            <span class="pipeline-step green">Phase 03</span>
+            <div class="pipeline-icon">🔔</div>
+            <div class="pipeline-title">Dynamic Buffer</div>
+            <div class="pipeline-desc">+14 min proactive buffer alerted to supervisor</div>
+            <span class="pipeline-badge badge-success">Proactive Buffer</span>
+          </div>
+
+          <div class="pipeline-card success">
+            <span class="pipeline-step green">Phase 04</span>
+            <div class="pipeline-icon">🛫</div>
+            <div class="pipeline-title">On-Time Turn</div>
+            <div class="pipeline-desc">Synchronized ramp execution with zero delay</div>
+            <span class="pipeline-badge badge-success">100% On-Time</span>
+          </div>
+        </div>
+
+        <!-- Outcome Callout Banner -->
+        <div class="pipeline-stats-banner success-banner animate-item" data-delay="400">
+          <div>
+            <div class="p-stat-val text-green">100%</div>
+            <div class="p-stat-label">Target On-Time Turnaround Rate</div>
+          </div>
+          <div>
+            <div class="p-stat-val text-navy">+14 min</div>
+            <div class="p-stat-label">Average Predictive Buffer Foresight</div>
+          </div>
+          <div>
+            <div class="p-stat-val text-blue">T-60m</div>
+            <div class="p-stat-label">Advance Actionable Warning Time</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================= -->
+    <!-- SLIDE 5 — PRODUCT & VALUE PROPOSITION                   -->
+    <!-- ======================================================= -->
+    <section class="slide" data-slide="5">
       <div class="slide-inner">
 
         <div class="section-label animate-item">Product</div>
@@ -256,9 +419,69 @@
     </section>
 
     <!-- ======================================================= -->
-    <!-- SLIDE 4 — COMPETITOR ANALYSIS                           -->
+    <!-- SLIDE 6 — MARKET OPPORTUNITY                            -->
     <!-- ======================================================= -->
-    <section class="slide" data-slide="4">
+    <section class="slide" data-slide="6">
+      <div class="slide-inner">
+
+        <div class="section-label animate-item">Market</div>
+        <h2 class="section-title animate-item" data-delay="80">Market Opportunity</h2>
+        <p class="section-subtitle animate-item" data-delay="160">
+          No dynamic buffer optimization tool exists for regional airports in emerging markets — incumbents are built for mega-hubs and priced accordingly.
+        </p>
+
+        <div class="stats-row animate-item" data-delay="300">
+          <div class="stat-card accent-blue">
+            <span class="stat-icon">🌍</span>
+            <div class="stat-value text-blue">$<span class="counter" data-target="3.83" data-decimals="2">0</span>B</div>
+            <div class="stat-label">Global Ground Handling<br>Software Market (2024)</div>
+            <div class="stat-detail">Growing at 5.19% CAGR → $5.75B by 2032</div>
+          </div>
+          <div class="stat-card accent-amber">
+            <span class="stat-icon">🌡️</span>
+            <div class="stat-value text-amber"><span class="counter" data-target="45" data-suffix="–50°C">0</span></div>
+            <div class="stat-label">Heat Index at<br>Pilot Airport</div>
+            <div class="stat-detail">→ 20%+ Ramp Productivity Drop</div>
+          </div>
+          <div class="stat-card accent-green">
+            <span class="stat-icon">✈️</span>
+            <div class="stat-value text-green">~<span class="counter" data-target="370">0</span></div>
+            <div class="stat-label">Flight Turns / Month<br>at Pilot Station</div>
+            <div class="stat-detail">High volume, no smart buffer tool</div>
+          </div>
+        </div>
+
+        <div class="stats-row animate-item" data-delay="500">
+          <div class="stat-card" style="grid-column: 1 / -1;">
+            <div style="display:flex; align-items:center; justify-content:center; gap:48px; flex-wrap:wrap;">
+              <div style="text-align:center;">
+                <div class="stat-label" style="margin-bottom:8px;">Amadeus (Incumbent)</div>
+                <div class="stat-value" style="font-size:28px; color:var(--red);">PKR 48,000+<span style="font-size:14px; font-weight:500;">/turn</span></div>
+              </div>
+              <div style="font-size:32px; font-weight:900; color:var(--text-muted);">vs</div>
+              <div style="text-align:center;">
+                <div class="stat-label" style="margin-bottom:8px;">ORBIS (Our Solution)</div>
+                <div class="stat-value" style="font-size:28px; color:var(--green);">PKR 1,000<span style="font-size:14px; font-weight:500;">/turn</span></div>
+              </div>
+              <div style="text-align:center; padding:12px 24px; background:var(--green-bg); border-radius:10px;">
+                <div class="stat-value text-green" style="font-size:32px;"><span class="counter" data-target="50">0</span>×</div>
+                <div class="stat-label">Cheaper</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <p class="source-note animate-item" data-delay="650">
+          Sources: ¹ 360iResearch (2025) — Ground Handling Software Market &nbsp; ² Yu &amp; Shi (2024) — Heat and Productivity &nbsp; ³ Amadeus Annual Report (2024) — Revenue per passenger boarded
+        </p>
+
+      </div>
+    </section>
+
+    <!-- ======================================================= -->
+    <!-- SLIDE 7 — COMPETITOR ANALYSIS                           -->
+    <!-- ======================================================= -->
+    <section class="slide" data-slide="7">
       <div class="slide-inner">
 
         <div class="section-label animate-item">Competition</div>
@@ -334,9 +557,9 @@
     </section>
 
     <!-- ======================================================= -->
-    <!-- SLIDE 5 — BUSINESS MODEL & REVENUE                      -->
+    <!-- SLIDE 8 — BUSINESS MODEL & REVENUE                      -->
     <!-- ======================================================= -->
-    <section class="slide" data-slide="5">
+    <section class="slide" data-slide="8">
       <div class="slide-inner">
 
         <div class="section-label animate-item">Business Model</div>
@@ -408,9 +631,9 @@
     </section>
 
     <!-- ======================================================= -->
-    <!-- SLIDE 6 — FINANCIAL HIGHLIGHTS                          -->
+    <!-- SLIDE 9 — FINANCIAL HIGHLIGHTS                          -->
     <!-- ======================================================= -->
-    <section class="slide" data-slide="6">
+    <section class="slide" data-slide="9">
       <div class="slide-inner">
 
         <div class="section-label animate-item">Financials</div>
@@ -471,149 +694,9 @@
     </section>
 
     <!-- ======================================================= -->
-    <!-- SLIDE 7 — THE PROBLEM: REACTIVE BREAKDOWN               -->
+    <!-- SLIDE 10 — DEDICATED INNOVATION & GROWTH ROADMAP        -->
     <!-- ======================================================= -->
-    <section class="slide" data-slide="7">
-      <div class="slide-inner">
-
-        <div class="section-label animate-item" style="color:var(--red); background:var(--red-bg);">
-          The Problem &amp; Status Quo
-        </div>
-        <h2 class="section-title animate-item" data-delay="80">
-          Traditional Ground Handling: The Reactive Breakdown
-        </h2>
-        <p class="section-subtitle animate-item" data-delay="160" style="margin-bottom: 26px;">
-          Legacy turnaround operations are blind to dynamic ramp conditions.
-        </p>
-
-        <!-- 4-Stage High-Visibility Pipeline -->
-        <div class="pipeline-grid animate-item" data-delay="260">
-          <div class="pipeline-card danger">
-            <span class="pipeline-step red">Stage 01</span>
-            <div class="pipeline-icon">🛬</div>
-            <div class="pipeline-title">Static Buffers</div>
-            <div class="pipeline-desc">Fixed 35m allocation blind to live conditions</div>
-            <span class="pipeline-badge badge-danger">Blind Scheduling</span>
-          </div>
-
-          <div class="pipeline-card danger">
-            <span class="pipeline-step red">Stage 02</span>
-            <div class="pipeline-icon">🌡️</div>
-            <div class="pipeline-title">45°C+ Ramp Heat</div>
-            <div class="pipeline-desc">Worker fatigue slows ramp pace by 20%+</div>
-            <span class="pipeline-badge badge-warning">-20% Pace Drop</span>
-          </div>
-
-          <div class="pipeline-card danger">
-            <span class="pipeline-step red">Stage 03</span>
-            <div class="pipeline-icon">⚙️</div>
-            <div class="pipeline-title">GSE Bottlenecks</div>
-            <div class="pipeline-desc">Equipment snags with zero advance alert</div>
-            <span class="pipeline-badge badge-danger">Zero Warning</span>
-          </div>
-
-          <div class="pipeline-card danger">
-            <span class="pipeline-step red">Stage 04</span>
-            <div class="pipeline-icon">⚠️</div>
-            <div class="pipeline-title">Cascading Delays</div>
-            <div class="pipeline-desc">Reactive reports filed after flight is late</div>
-            <span class="pipeline-badge badge-danger">45m+ Delay &amp; Fines</span>
-          </div>
-        </div>
-
-        <!-- Impact Callout Banner -->
-        <div class="pipeline-stats-banner danger-banner animate-item" data-delay="420">
-          <div>
-            <div class="p-stat-val text-red">45m+</div>
-            <div class="p-stat-label">Average Flight Delay per Late Turn</div>
-          </div>
-          <div>
-            <div class="p-stat-val text-amber">-20%</div>
-            <div class="p-stat-label">Ramp Pace Collapse in Extreme Heat</div>
-          </div>
-          <div>
-            <div class="p-stat-val text-navy">PKR 300K+</div>
-            <div class="p-stat-label">Estimated Direct Cost per Delay Incident</div>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ======================================================= -->
-    <!-- SLIDE 8 — THE SOLUTION: PREDICTIVE TURNAROUND           -->
-    <!-- ======================================================= -->
-    <section class="slide" data-slide="8">
-      <div class="slide-inner">
-
-        <div class="section-label animate-item" style="color:var(--green); background:var(--green-bg);">
-          The Solution &amp; Innovation
-        </div>
-        <h2 class="section-title animate-item" data-delay="80">
-          Predictive Turnaround Intelligence
-        </h2>
-        <p class="section-subtitle animate-item" data-delay="160" style="margin-bottom: 26px;">
-          Eliminating turnaround delays before the aircraft even touches down.
-        </p>
-
-        <!-- 4-Phase High-Visibility Pipeline -->
-        <div class="pipeline-grid animate-item" data-delay="240">
-          <div class="pipeline-card success">
-            <span class="pipeline-step green">Phase 01</span>
-            <div class="pipeline-icon">📡</div>
-            <div class="pipeline-title">T-60m Telemetry</div>
-            <div class="pipeline-desc">Live heat, GSE readiness &amp; PRM manifest ingested</div>
-            <span class="pipeline-badge badge-info">Live Ingestion</span>
-          </div>
-
-          <div class="pipeline-card success">
-            <span class="pipeline-step green">Phase 02</span>
-            <div class="pipeline-icon">🎲</div>
-            <div class="pipeline-title">1,000 MC Runs</div>
-            <div class="pipeline-desc">Stochastic probability models ramp variance</div>
-            <span class="pipeline-badge badge-success">Variance Modeled</span>
-          </div>
-
-          <div class="pipeline-card success">
-            <span class="pipeline-step green">Phase 03</span>
-            <div class="pipeline-icon">🔔</div>
-            <div class="pipeline-title">Dynamic Buffer</div>
-            <div class="pipeline-desc">+14 min proactive buffer alerted to supervisor</div>
-            <span class="pipeline-badge badge-success">Proactive Buffer</span>
-          </div>
-
-          <div class="pipeline-card success">
-            <span class="pipeline-step green">Phase 04</span>
-            <div class="pipeline-icon">🛫</div>
-            <div class="pipeline-title">On-Time Turn</div>
-            <div class="pipeline-desc">Synchronized ramp execution with zero delay</div>
-            <span class="pipeline-badge badge-success">100% On-Time</span>
-          </div>
-        </div>
-
-        <!-- Outcome Callout Banner -->
-        <div class="pipeline-stats-banner success-banner animate-item" data-delay="400">
-          <div>
-            <div class="p-stat-val text-green">100%</div>
-            <div class="p-stat-label">Target On-Time Turnaround Rate</div>
-          </div>
-          <div>
-            <div class="p-stat-val text-navy">+14 min</div>
-            <div class="p-stat-label">Average Predictive Buffer Foresight</div>
-          </div>
-          <div>
-            <div class="p-stat-val text-blue">T-60m</div>
-            <div class="p-stat-label">Advance Actionable Warning Time</div>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ======================================================= -->
-    <!-- SLIDE 9 — DEDICATED INNOVATION & GROWTH ROADMAP         -->
-    <!-- ======================================================= -->
-    <section class="slide" data-slide="9">
+    <section class="slide" data-slide="10">
       <div class="slide-inner">
 
         <div class="section-label animate-item">Advantage &amp; Scale</div>
@@ -688,9 +771,9 @@
     </section>
 
     <!-- ======================================================= -->
-    <!-- SLIDE 10 — FOUNDING TEAM                                -->
+    <!-- SLIDE 11 — FOUNDING TEAM                                -->
     <!-- ======================================================= -->
-    <section class="slide" data-slide="10">
+    <section class="slide" data-slide="11">
       <div class="slide-inner">
 
         <div class="section-label animate-item">Team</div>
@@ -742,9 +825,9 @@
     </section>
 
     <!-- ======================================================= -->
-    <!-- SLIDE 11 — CONCLUSION                                   -->
+    <!-- SLIDE 12 — CONCLUSION                                   -->
     <!-- ======================================================= -->
-    <section class="slide" data-slide="11">
+    <section class="slide" data-slide="12">
       <div class="slide-inner">
 
         <div class="section-label animate-item">Conclusion</div>
@@ -776,9 +859,9 @@
     </section>
 
     <!-- ======================================================= -->
-    <!-- SLIDE 12 — THANK YOU                                    -->
+    <!-- SLIDE 13 — THANK YOU                                    -->
     <!-- ======================================================= -->
-    <section class="slide hero-slide" data-slide="12">
+    <section class="slide hero-slide" data-slide="13">
       <div class="slide-inner">
 
         <div class="section-label animate-item" data-delay="100" style="margin-bottom: 20px;">
@@ -832,15 +915,31 @@
 
     <div class="note-content" data-for="2">
       <ul>
-        <li>Open with the global market size: $3.83 Billion, growing 5.19% CAGR.</li>
-        <li>Highlight the gap: no dynamic buffer tool for regional emerging-market airports.</li>
-        <li>Bring up the heat problem: 45–50°C → 20% productivity drop (Yu &amp; Shi, 2024).</li>
-        <li>Stress the price contrast: Amadeus PKR 48K vs ORBIS PKR 1K — 50× cheaper.</li>
-        <li>Mention ~370 flight turns/month at pilot station.</li>
+        <li><strong>Turnaround Definition:</strong> Explain what an aircraft turnaround actually is — the entire sequence of operations from touchdown and docking at the gate, to pushback and departure.</li>
+        <li><strong>Live Simulation Demo:</strong> Point to the interactive tarmac animation: aircraft docks, chocks &amp; GPU connected, baggage unloaded/loaded, refueling, and PRM wheelchair boarding.</li>
+        <li><strong>Parallel Critical Path:</strong> Highlight that 5+ Ground Handling operations happen simultaneously under intense time pressure (standard 35-min turn).</li>
+        <li><strong>Bridge to Next Slide:</strong> "Ye simulation ideal turnaround dikhati hai — lekin ground par 48°C extreme heat aur equipment breakdowns is poore chain ko tor dete hain."</li>
       </ul>
     </div>
 
     <div class="note-content" data-for="3">
+      <ul>
+        <li><strong>Walk through the Reactive Breakdown:</strong> Static buffers fail because they are blind to ramp conditions.</li>
+        <li>Point to Stage 02: 45°–50°C heat causes a 20%+ physical productivity collapse (Yu &amp; Shi, 2024).</li>
+        <li>Explain Stage 03 &amp; 04: GSE equipment failures trigger unpredicted 45m+ cascading delays costing PKR 300K+ per incident.</li>
+        <li>Emphasise: "Today, ground handlers only report delays AFTER the flight has already missed departure."</li>
+      </ul>
+    </div>
+
+    <div class="note-content" data-for="4">
+      <ul>
+        <li><strong>Present the Predictive Solution:</strong> T-60m live telemetry + 1,000 Monte Carlo stochastic runs before landing.</li>
+        <li>Controllers receive dynamic buffer alerts (+14 mins) in advance, achieving 100% on-time turnaround.</li>
+        <li>Highlight the contrast: proactive buffer allocation eliminates delay penalties before plane touches down.</li>
+      </ul>
+    </div>
+
+    <div class="note-content" data-for="5">
       <ul>
         <li>Introduce the 5 core input variables driving ramp turnarounds.</li>
         <li><strong>Live Demo on Video:</strong> Drag the Heat Index slider to 48°C or adjust GSE/PRM to show live dynamism!</li>
@@ -849,7 +948,17 @@
       </ul>
     </div>
 
-    <div class="note-content" data-for="4">
+    <div class="note-content" data-for="6">
+      <ul>
+        <li>Open with the global market size: $3.83 Billion, growing 5.19% CAGR.</li>
+        <li>Highlight the gap: no dynamic buffer tool for regional emerging-market airports.</li>
+        <li>Bring up the heat problem: 45–50°C → 20% productivity drop (Yu &amp; Shi, 2024).</li>
+        <li>Stress the price contrast: Amadeus PKR 48K vs ORBIS PKR 1K — 50× cheaper.</li>
+        <li>Mention ~370 flight turns/month at pilot station.</li>
+      </ul>
+    </div>
+
+    <div class="note-content" data-for="7">
       <ul>
         <li>Walk through the table — Amadeus, SITA, INFORM, Damarel — none offer dynamic buffer, heat, or PRM.</li>
         <li>ORBIS annual cost: ~USD 4,370 vs Amadeus at up to USD 2 Million.</li>
@@ -857,7 +966,7 @@
       </ul>
     </div>
 
-    <div class="note-content" data-for="5">
+    <div class="note-content" data-for="8">
       <ul>
         <li>Explain the 4 revenue streams — per-turn fee is the core scalable stream.</li>
         <li>Monthly subscription covers cloud &amp; data API costs.</li>
@@ -868,7 +977,7 @@
       </ul>
     </div>
 
-    <div class="note-content" data-for="6">
+    <div class="note-content" data-for="9">
       <ul>
         <li>Initial investment: PKR 2.06M, 100% self-funded — zero external debt.</li>
         <li>Break-even in just Month 4 — April of Year 1.</li>
@@ -879,24 +988,7 @@
       </ul>
     </div>
 
-    <div class="note-content" data-for="7">
-      <ul>
-        <li><strong>Walk through the Reactive Breakdown:</strong> Static buffers fail because they are blind to ramp conditions.</li>
-        <li>Point to Stage 02: 45°–50°C heat causes a 20%+ physical productivity collapse (Yu &amp; Shi, 2024).</li>
-        <li>Explain Stage 03 &amp; 04: GSE equipment failures trigger unpredicted 45m+ cascading delays costing PKR 300K+ per incident.</li>
-        <li>Emphasise: "Today, ground handlers only report delays AFTER the flight has already missed departure."</li>
-      </ul>
-    </div>
-
-    <div class="note-content" data-for="8">
-      <ul>
-        <li><strong>Present the Predictive Solution:</strong> T-60m live telemetry + 1,000 Monte Carlo stochastic runs before landing.</li>
-        <li>Controllers receive dynamic buffer alerts (+14 mins) in advance, achieving 100% on-time turnaround.</li>
-        <li>Highlight the contrast: proactive buffer allocation eliminates delay penalties before plane touches down.</li>
-      </ul>
-    </div>
-
-    <div class="note-content" data-for="9">
+    <div class="note-content" data-for="10">
       <ul>
         <li><strong>Highlight the 3 Technological Innovations:</strong> 1,000 stochastic runs, PRM mobility modeling, and dynamic heat index.</li>
         <li>Emphasise: No global competitor incorporates PRM or ambient heat in buffer optimization.</li>
@@ -904,7 +996,7 @@
       </ul>
     </div>
 
-    <div class="note-content" data-for="10">
+    <div class="note-content" data-for="11">
       <ul>
         <li>Introduce each team member with confidence.</li>
         <li>Areeba Sajid — Co-Founder, aviation operations and product strategy.</li>
@@ -914,7 +1006,7 @@
       </ul>
     </div>
 
-    <div class="note-content" data-for="11">
+    <div class="note-content" data-for="12">
       <ul>
         <li>Summarise the three pillars: Technically Validated, Financially Proven, Market-Ready.</li>
         <li>Read the closing quote with conviction.</li>
@@ -922,7 +1014,7 @@
       </ul>
     </div>
 
-    <div class="note-content" data-for="12">
+    <div class="note-content" data-for="13">
       <ul>
         <li>Deliver your concluding pitch statement with confidence and high energy.</li>
         <li>Reinforce the core vision: "Smarter Turnarounds. Zero Delays."</li>
