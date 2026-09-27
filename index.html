@@ -27,7 +27,7 @@
   <div id="progress-bar"></div>
 
   <!-- Slide Counter -->
-  <div id="slide-counter">01 / 10</div>
+  <div id="slide-counter">01 / 12</div>
 
   <!-- ===== PRESENTATION ===== -->
   <div id="presentation">
@@ -471,117 +471,69 @@
     </section>
 
     <!-- ======================================================= -->
-    <!-- SLIDE 7 — INNOVATION & GROWTH                           -->
+    <!-- SLIDE 7 — THE PROBLEM: REACTIVE BREAKDOWN               -->
     <!-- ======================================================= -->
     <section class="slide" data-slide="7">
       <div class="slide-inner">
 
-        <div class="section-label animate-item">Innovation</div>
-        <h2 class="section-title animate-item" data-delay="80">Innovation &amp; Growth</h2>
-
-        <!-- Visual Paradigm Shift: Reactive vs Proactive -->
-        <div class="paradigm-comparison animate-item" data-delay="220">
-          
-          <!-- Track 1: Traditional Reactive -->
-          <div class="paradigm-track track-reactive">
-            <div class="track-header">
-              <span class="track-badge badge-danger">❌ Traditional Ground Handling (Reactive)</span>
-              <span class="track-outcome text-red">Result: Unplanned 45m+ Delay &amp; Penalties</span>
-            </div>
-            <div class="track-flow">
-              <div class="flow-node">
-                <span class="node-icon">🛬</span>
-                <span class="node-title">Flight Inbound</span>
-                <span class="node-sub">Static buffer assumed</span>
-              </div>
-              <div class="flow-arrow text-red">➔</div>
-              <div class="flow-node alert-node">
-                <span class="node-icon">🌡️</span>
-                <span class="node-title">48°C Heatwave</span>
-                <span class="node-sub">Ramp pace drops 20%</span>
-              </div>
-              <div class="flow-arrow text-red">➔</div>
-              <div class="flow-node alert-node">
-                <span class="node-icon">⚙️</span>
-                <span class="node-title">GSE / Belt Bottleneck</span>
-                <span class="node-sub">Zero early warning</span>
-              </div>
-              <div class="flow-arrow text-red">➔</div>
-              <div class="flow-node fail-node">
-                <span class="node-icon">⚠️</span>
-                <span class="node-title">Post-Delay Report</span>
-                <span class="node-sub">Gate missed &amp; fine paid</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Track 2: ORBIS Proactive -->
-          <div class="paradigm-track track-proactive">
-            <div class="track-header">
-              <span class="track-badge badge-success">✅ ORBIS Predictive System (Proactive)</span>
-              <span class="track-outcome text-green">Result: 100% On-Time Turnaround</span>
-            </div>
-            <div class="track-flow">
-              <div class="flow-node">
-                <span class="node-icon">📡</span>
-                <span class="node-title">T-60m Telemetry</span>
-                <span class="node-sub">Live Weather &amp; GSE Status</span>
-              </div>
-              <div class="flow-arrow text-green">➔</div>
-              <div class="flow-node active-node">
-                <span class="node-icon">🎲</span>
-                <span class="node-title">1,000 MC Iterations</span>
-                <span class="node-sub">Ramp variance simulated</span>
-              </div>
-              <div class="flow-arrow text-green">➔</div>
-              <div class="flow-node active-node">
-                <span class="node-icon">🔔</span>
-                <span class="node-title">Dynamic Buffer Alert</span>
-                <span class="node-sub">+14m buffer allocated early</span>
-              </div>
-              <div class="flow-arrow text-green">➔</div>
-              <div class="flow-node success-node">
-                <span class="node-icon">🛫</span>
-                <span class="node-title">Synchronized Ramp</span>
-                <span class="node-sub">Zero flight delay</span>
-              </div>
-            </div>
-          </div>
-
+        <div class="section-label animate-item" style="color:var(--red); background:var(--red-bg);">
+          The Problem &amp; Status Quo
         </div>
+        <h2 class="section-title animate-item" data-delay="80">
+          Traditional Ground Handling: The Reactive Breakdown
+        </h2>
+        <p class="section-subtitle animate-item" data-delay="160" style="margin-bottom: 26px;">
+          Legacy turnaround operations are blind to dynamic ramp conditions.
+        </p>
 
-        <!-- 3 Core Competitive Innovations -->
-        <div class="inno-pills-row animate-item" data-delay="380">
-          <div class="inno-pill">
-            <span class="pill-ico">🎲</span>
-            <span><strong>Monte Carlo Engine:</strong> 1,000 runs per turn in regional aviation</span>
+        <!-- 4-Stage High-Visibility Pipeline -->
+        <div class="pipeline-grid animate-item" data-delay="260">
+          <div class="pipeline-card danger">
+            <span class="pipeline-step red">Stage 01</span>
+            <div class="pipeline-icon">🛬</div>
+            <div class="pipeline-title">Static Buffers</div>
+            <div class="pipeline-desc">Fixed 35m allocation blind to live conditions</div>
+            <span class="pipeline-badge badge-danger">Blind Scheduling</span>
           </div>
-          <div class="inno-pill">
-            <span class="pill-ico">♿</span>
-            <span><strong>PRM Independent Variable:</strong> Global first to model mobility variance</span>
+
+          <div class="pipeline-card danger">
+            <span class="pipeline-step red">Stage 02</span>
+            <div class="pipeline-icon">🌡️</div>
+            <div class="pipeline-title">45°C+ Ramp Heat</div>
+            <div class="pipeline-desc">Worker fatigue slows ramp pace by 20%+</div>
+            <span class="pipeline-badge badge-warning">-20% Pace Drop</span>
           </div>
-          <div class="inno-pill">
-            <span class="pill-ico">🌡️</span>
-            <span><strong>Heat Index Factored:</strong> Thermal productivity drop calculated dynamically</span>
+
+          <div class="pipeline-card danger">
+            <span class="pipeline-step red">Stage 03</span>
+            <div class="pipeline-icon">⚙️</div>
+            <div class="pipeline-title">GSE Bottlenecks</div>
+            <div class="pipeline-desc">Equipment snags with zero advance alert</div>
+            <span class="pipeline-badge badge-danger">Zero Warning</span>
+          </div>
+
+          <div class="pipeline-card danger">
+            <span class="pipeline-step red">Stage 04</span>
+            <div class="pipeline-icon">⚠️</div>
+            <div class="pipeline-title">Cascading Delays</div>
+            <div class="pipeline-desc">Reactive reports filed after flight is late</div>
+            <span class="pipeline-badge badge-danger">45m+ Delay &amp; Fines</span>
           </div>
         </div>
 
-        <div class="roadmap animate-item" data-delay="500">
-          <div class="roadmap-step rm-active">
-            <div class="rm-year">Year 1</div>
-            <div class="rm-desc">Validate at pilot station</div>
+        <!-- Impact Callout Banner -->
+        <div class="pipeline-stats-banner danger-banner animate-item" data-delay="420">
+          <div>
+            <div class="p-stat-val text-red">45m+</div>
+            <div class="p-stat-label">Average Flight Delay per Late Turn</div>
           </div>
-          <div class="roadmap-step">
-            <div class="rm-year">Year 2</div>
-            <div class="rm-desc">3 stations, Pakistan</div>
+          <div>
+            <div class="p-stat-val text-amber">-20%</div>
+            <div class="p-stat-label">Ramp Pace Collapse in Extreme Heat</div>
           </div>
-          <div class="roadmap-step">
-            <div class="rm-year">Year 3</div>
-            <div class="rm-desc">5 stations, major hubs</div>
-          </div>
-          <div class="roadmap-step">
-            <div class="rm-year">Future</div>
-            <div class="rm-desc">Gulf &amp; South Asia + ML v2.0</div>
+          <div>
+            <div class="p-stat-val text-navy">PKR 300K+</div>
+            <div class="p-stat-label">Estimated Direct Cost per Delay Incident</div>
           </div>
         </div>
 
@@ -589,9 +541,156 @@
     </section>
 
     <!-- ======================================================= -->
-    <!-- SLIDE 8 — FOUNDING TEAM                                 -->
+    <!-- SLIDE 8 — THE SOLUTION: PREDICTIVE TURNAROUND           -->
     <!-- ======================================================= -->
     <section class="slide" data-slide="8">
+      <div class="slide-inner">
+
+        <div class="section-label animate-item" style="color:var(--green); background:var(--green-bg);">
+          The Solution &amp; Innovation
+        </div>
+        <h2 class="section-title animate-item" data-delay="80">
+          Predictive Turnaround Intelligence
+        </h2>
+        <p class="section-subtitle animate-item" data-delay="160" style="margin-bottom: 26px;">
+          Eliminating turnaround delays before the aircraft even touches down.
+        </p>
+
+        <!-- 4-Phase High-Visibility Pipeline -->
+        <div class="pipeline-grid animate-item" data-delay="240">
+          <div class="pipeline-card success">
+            <span class="pipeline-step green">Phase 01</span>
+            <div class="pipeline-icon">📡</div>
+            <div class="pipeline-title">T-60m Telemetry</div>
+            <div class="pipeline-desc">Live heat, GSE readiness &amp; PRM manifest ingested</div>
+            <span class="pipeline-badge badge-info">Live Ingestion</span>
+          </div>
+
+          <div class="pipeline-card success">
+            <span class="pipeline-step green">Phase 02</span>
+            <div class="pipeline-icon">🎲</div>
+            <div class="pipeline-title">1,000 MC Runs</div>
+            <div class="pipeline-desc">Stochastic probability models ramp variance</div>
+            <span class="pipeline-badge badge-success">Variance Modeled</span>
+          </div>
+
+          <div class="pipeline-card success">
+            <span class="pipeline-step green">Phase 03</span>
+            <div class="pipeline-icon">🔔</div>
+            <div class="pipeline-title">Dynamic Buffer</div>
+            <div class="pipeline-desc">+14 min proactive buffer alerted to supervisor</div>
+            <span class="pipeline-badge badge-success">Proactive Buffer</span>
+          </div>
+
+          <div class="pipeline-card success">
+            <span class="pipeline-step green">Phase 04</span>
+            <div class="pipeline-icon">🛫</div>
+            <div class="pipeline-title">On-Time Turn</div>
+            <div class="pipeline-desc">Synchronized ramp execution with zero delay</div>
+            <span class="pipeline-badge badge-success">100% On-Time</span>
+          </div>
+        </div>
+
+        <!-- Outcome Callout Banner -->
+        <div class="pipeline-stats-banner success-banner animate-item" data-delay="400">
+          <div>
+            <div class="p-stat-val text-green">100%</div>
+            <div class="p-stat-label">Target On-Time Turnaround Rate</div>
+          </div>
+          <div>
+            <div class="p-stat-val text-navy">+14 min</div>
+            <div class="p-stat-label">Average Predictive Buffer Foresight</div>
+          </div>
+          <div>
+            <div class="p-stat-val text-blue">T-60m</div>
+            <div class="p-stat-label">Advance Actionable Warning Time</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================= -->
+    <!-- SLIDE 9 — DEDICATED INNOVATION & GROWTH ROADMAP         -->
+    <!-- ======================================================= -->
+    <section class="slide" data-slide="9">
+      <div class="slide-inner">
+
+        <div class="section-label animate-item">Advantage &amp; Scale</div>
+        <h2 class="section-title animate-item" data-delay="80">
+          Core Innovations &amp; Expansion Roadmap
+        </h2>
+        <p class="section-subtitle animate-item" data-delay="160" style="margin-bottom: 24px;">
+          Pioneering turnaround science and scaling across regional emerging aviation markets.
+        </p>
+
+        <!-- 3 Core Technological Innovations -->
+        <div class="inno-cards-grid animate-item" data-delay="240">
+          <div class="inno-card-full">
+            <div class="inno-card-header">
+              <div class="inno-card-icon">🎲</div>
+              <div class="inno-card-title">Monte Carlo Engine</div>
+            </div>
+            <div class="inno-card-body">
+              1,000 stochastic flight iterations per turnaround, modeling complex ramp variance before aircraft arrival.
+            </div>
+            <span class="inno-card-badge">First in Regional Aviation</span>
+          </div>
+
+          <div class="inno-card-full">
+            <div class="inno-card-header">
+              <div class="inno-card-icon">♿</div>
+              <div class="inno-card-title">PRM Mobility Variable</div>
+            </div>
+            <div class="inno-card-body">
+              First platform globally to incorporate passenger mobility assistance as an independent stochastic variable.
+            </div>
+            <span class="inno-card-badge">Global Industry First</span>
+          </div>
+
+          <div class="inno-card-full">
+            <div class="inno-card-header">
+              <div class="inno-card-icon">🌡️</div>
+              <div class="inno-card-title">Extreme Heat Modeling</div>
+            </div>
+            <div class="inno-card-body">
+              Real-time thermal index calculating physical human fatigue and equipment breakdown risks dynamically.
+            </div>
+            <span class="inno-card-badge">Climate-Tailored Algorithm</span>
+          </div>
+        </div>
+
+        <!-- 4-Year Growth Roadmap -->
+        <div class="roadmap-grid-4 animate-item" data-delay="400">
+          <div class="rm-card-clean active">
+            <div class="rm-clean-year">YEAR 1</div>
+            <div class="rm-clean-title">Pilot Proof-of-Concept</div>
+            <div class="rm-clean-desc">1 station validation &amp; benchmark testing</div>
+          </div>
+          <div class="rm-card-clean">
+            <div class="rm-clean-year">YEAR 2</div>
+            <div class="rm-clean-title">Pakistan Expansion</div>
+            <div class="rm-clean-desc">3 stations deployed nationwide</div>
+          </div>
+          <div class="rm-card-clean">
+            <div class="rm-clean-year">YEAR 3</div>
+            <div class="rm-clean-title">Major Regional Hubs</div>
+            <div class="rm-clean-desc">5 stations + South Asian licensing</div>
+          </div>
+          <div class="rm-card-clean">
+            <div class="rm-clean-year">FUTURE</div>
+            <div class="rm-clean-title">Gulf &amp; ML v2.0</div>
+            <div class="rm-clean-desc">Middle East expansion &amp; predictive AI</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================= -->
+    <!-- SLIDE 10 — FOUNDING TEAM                                -->
+    <!-- ======================================================= -->
+    <section class="slide" data-slide="10">
       <div class="slide-inner">
 
         <div class="section-label animate-item">Team</div>
@@ -643,9 +742,9 @@
     </section>
 
     <!-- ======================================================= -->
-    <!-- SLIDE 9 — CONCLUSION                                    -->
+    <!-- SLIDE 11 — CONCLUSION                                   -->
     <!-- ======================================================= -->
-    <section class="slide" data-slide="9">
+    <section class="slide" data-slide="11">
       <div class="slide-inner">
 
         <div class="section-label animate-item">Conclusion</div>
@@ -677,9 +776,9 @@
     </section>
 
     <!-- ======================================================= -->
-    <!-- SLIDE 10 — THANK YOU                                     -->
+    <!-- SLIDE 12 — THANK YOU                                    -->
     <!-- ======================================================= -->
-    <section class="slide hero-slide" data-slide="10">
+    <section class="slide hero-slide" data-slide="12">
       <div class="slide-inner">
 
         <div class="section-label animate-item" data-delay="100" style="margin-bottom: 20px;">
@@ -782,35 +881,51 @@
 
     <div class="note-content" data-for="7">
       <ul>
-        <li><strong>Walk through the visual comparison:</strong> Red track shows current industry reactive failure (unplanned 45m delay).</li>
-        <li>Green track shows ORBIS proactive model: T-60m telemetry + 1,000 simulations = 100% on-time departure.</li>
-        <li>Highlight the 3 innovation pillars: Monte Carlo engine, PRM mobility modeling, and Heat Index factor.</li>
-        <li>Showcase the growth roadmap: Pilot station → 3 stations → 5 major hubs.</li>
+        <li><strong>Walk through the Reactive Breakdown:</strong> Static buffers fail because they are blind to ramp conditions.</li>
+        <li>Point to Stage 02: 45°–50°C heat causes a 20%+ physical productivity collapse (Yu &amp; Shi, 2024).</li>
+        <li>Explain Stage 03 &amp; 04: GSE equipment failures trigger unpredicted 45m+ cascading delays costing PKR 300K+ per incident.</li>
+        <li>Emphasise: "Today, ground handlers only report delays AFTER the flight has already missed departure."</li>
       </ul>
     </div>
 
     <div class="note-content" data-for="8">
       <ul>
-        <li>Introduce each team member briefly.</li>
-        <li>Areeba Sajid — Co-Founder, aviation operations and product strategy.</li>
-        <li>Danish Butt — Co-Founder, technical development and simulation engine.</li>
-        <li>Dr. Muhammad Ramzan — Academic mentor, research methodology.</li>
-        <li>Burhan-ud-din Tahir — Industry mentor, aviation domain expertise.</li>
+        <li><strong>Present the Predictive Solution:</strong> T-60m live telemetry + 1,000 Monte Carlo stochastic runs before landing.</li>
+        <li>Controllers receive dynamic buffer alerts (+14 mins) in advance, achieving 100% on-time turnaround.</li>
+        <li>Highlight the contrast: proactive buffer allocation eliminates delay penalties before plane touches down.</li>
       </ul>
     </div>
 
     <div class="note-content" data-for="9">
       <ul>
-        <li>Summarise the three pillars: Technically Validated, Financially Proven, Market-Ready.</li>
-        <li>Read the closing quote with conviction.</li>
-        <li>Pause briefly, then advance to the Thank You slide.</li>
+        <li><strong>Highlight the 3 Technological Innovations:</strong> 1,000 stochastic runs, PRM mobility modeling, and dynamic heat index.</li>
+        <li>Emphasise: No global competitor incorporates PRM or ambient heat in buffer optimization.</li>
+        <li><strong>Walk through the 4-year growth roadmap:</strong> Year 1 pilot → Year 2 3-stations → Year 3 5-hubs → Future Gulf expansion.</li>
       </ul>
     </div>
 
     <div class="note-content" data-for="10">
       <ul>
+        <li>Introduce each team member with confidence.</li>
+        <li>Areeba Sajid — Co-Founder, aviation operations and product strategy.</li>
+        <li>Danish Butt — Co-Founder, technical architecture and simulation engine.</li>
+        <li>Dr. Muhammad Ramzan — Academic mentor, research methodology.</li>
+        <li>Burhan-ud-din Tahir — Industry mentor, aviation domain expertise.</li>
+      </ul>
+    </div>
+
+    <div class="note-content" data-for="11">
+      <ul>
+        <li>Summarise the three pillars: Technically Validated, Financially Proven, Market-Ready.</li>
+        <li>Read the closing quote with conviction.</li>
+        <li>Pause briefly, then advance to the final Thank You slide.</li>
+      </ul>
+    </div>
+
+    <div class="note-content" data-for="12">
+      <ul>
         <li>Deliver your concluding pitch statement with confidence and high energy.</li>
-        <li>Reinforce the core slogan: "Smarter Turnarounds. Zero Delays."</li>
+        <li>Reinforce the core vision: "Smarter Turnarounds. Zero Delays."</li>
         <li>Conclude: "We are ready to deploy our pilot station and bring next-generation ramp intelligence to regional aviation. Thank you."</li>
       </ul>
     </div>

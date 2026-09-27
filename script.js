@@ -9,7 +9,7 @@
   /* ---------------------------------------------------------------
      1.  STATE
   --------------------------------------------------------------- */
-  const TOTAL_SLIDES = 10;
+  const TOTAL_SLIDES = 12;
   let current = 1;
   let isAnimating = false;
   let notesOpen = false;
@@ -617,12 +617,16 @@
           break;
       }
 
-      // Number keys 1–9 and 0 for slide 10
+      // Number keys 1–9, 0 for slide 10, '-' for slide 11, and '=' for slide 12
       if (e.key >= '1' && e.key <= '9') {
         const n = parseInt(e.key);
         if (n <= TOTAL_SLIDES) goToSlide(n);
       } else if (e.key === '0') {
         goToSlide(10);
+      } else if (e.key === '-') {
+        goToSlide(11);
+      } else if (e.key === '=') {
+        goToSlide(12);
       }
     });
 
